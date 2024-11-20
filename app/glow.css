@@ -1,0 +1,8 @@
+.glow-effect {
+  transition: box-shadow 0.2s ease-in-out, filter 0.2s ease-in-out;
+}
+
+.glow-effect-active {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  filter: brightness(1.1);
+}
