@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 import { EntranceAnimationComponent } from '@/components/entrance-animation';
-import Portfolio from '@/components/portfolio-page';
+import PortfolioPage from '@/components/portfolio-page';
 
 export default function Home() {
   const [showPortfolio, setShowPortfolio] = useState(false);
@@ -11,7 +11,7 @@ export default function Home() {
       {!showPortfolio ? (
         <EntranceAnimationComponent onComplete={() => setShowPortfolio(true)} />
       ) : (
-        <Portfolio />
+        <PortfolioPage />
       )}
     </div>
   );
