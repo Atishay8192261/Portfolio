@@ -17,7 +17,12 @@ export function Navbar({ isDark, setIsDark }: NavbarProps) {
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <span className="text-xl font-bold">Portfolio</span>
+        <span
+          className="text-xl font-bold"
+          style={{ marginLeft: "calc(-50px)" }} // Adjust this value as needed
+        >
+          Atie&apos;s Den
+        </span>
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
