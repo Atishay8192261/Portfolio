@@ -1,23 +1,45 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import { Github } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Github } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { fetchGitHubContributions } from '@/lib/githubApi'; // Updated API
 
 interface GitHubWidgetProps {
-  isDark: boolean
+  isDark: boolean;
+}
+
+function getTileColor(count: number, isDark: boolean): string {
+  if (count === 0) return isDark ? 'bg-gray-700' : 'bg-gray-200';
+  if (count === 1) return isDark ? 'bg-green-900' : 'bg-green-100';
+  if (count === 2) return isDark ? 'bg-green-700' : 'bg-green-300';
+  if (count === 3) return isDark ? 'bg-green-500' : 'bg-green-500';
+  return isDark ? 'bg-green-300' : 'bg-green-700';
 }
 
 export function GitHubWidget({ isDark }: GitHubWidgetProps) {
-  const [githubData, setGithubData] = useState<{contributions: number[]} | null>(null)
+  const [githubData, setGithubData] = useState<number[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setGithubData({
-      contributions: Array(52).fill(null).map(() => Math.floor(Math.random() * 5))
-    })
-  }, [])
+    const loadContributions = async () => {
+      try {
+        const contributions = await fetchGitHubContributions();
+        setGithubData(contributions);
+      } catch (err: any) {
+        console.error("Error fetching GitHub contributions:", err);
+        setError(err.message);
+      }
+    };
+
+    loadContributions();
+  }, []);
+
+  if (error) {
+    return <div className="text-red-500">Error: {error}</div>;
+  }
 
   return (
     <Card className={`overflow-hidden backdrop-blur-sm transition-colors duration-300 rounded-3xl ${
@@ -33,24 +55,19 @@ export function GitHubWidget({ isDark }: GitHubWidgetProps) {
             Follow
           </Button>
         </div>
-        <div className="grid grid-cols-52 gap-1">
-          {githubData?.contributions.map((count: number, i: number) => (
+        {/* Updated Grid */}
+        <div className="grid grid-rows-7 grid-flow-col gap-1 p-2 overflow-hidden">
+          {githubData?.map((count: number, i: number) => (
             <motion.div
               key={i}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: i * 0.01 }}
-              className={`w-2 h-2 rounded-sm ${
-                count === 0 ? 'bg-white/10' :
-                count === 1 ? 'bg-green-900' :
-                count === 2 ? 'bg-green-700' :
-                count === 3 ? 'bg-green-500' :
-                'bg-green-300'
-              }`}
+              className={`w-3 h-3 rounded-sm ${getTileColor(count, isDark)}`}
             />
           ))}
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
