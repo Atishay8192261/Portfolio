@@ -1,9 +1,13 @@
 export const fetchGitHubContributions = async () => {
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+  const today = new Date();
+
   const query = JSON.stringify({
     query: `
       query {
         user(login: "Atishay8192261") {
-          contributionsCollection {
+          contributionsCollection(from: "${oneYearAgo.toISOString()}", to: "${today.toISOString()}") {
             contributionCalendar {
               weeks {
                 contributionDays {
@@ -38,19 +42,16 @@ export const fetchGitHubContributions = async () => {
   if (!response.ok || data.errors) {
     throw new Error(`GitHub API error: ${data.errors?.[0]?.message || response.statusText}`);
   }
+  interface Week {
+    contributionDays: {
+      date: string;
+      contributionCount: number;
+    }[];
+  }
 
   const allDays = data.data.user.contributionsCollection.contributionCalendar.weeks.flatMap(
-    (week: any) => week.contributionDays
+    (week: Week) => week.contributionDays
   );
 
-  // Filter data to get only the most recent month
-  const oneMonthAgo = new Date();
-  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-
-  const filteredDays = allDays.filter((day: any) => {
-    const date = new Date(day.date);
-    return date >= oneMonthAgo;
-  });
-
-  return filteredDays.map((day: any) => day.contributionCount);
+  return allDays.map((day: { contributionCount: number }) => day.contributionCount);
 };
