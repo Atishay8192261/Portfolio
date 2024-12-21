@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, Navigation2, MapPinHouse, House, Coffee, BookA } from 'lucide-react';
+import { MapPin, Navigation2, MapPinHouse, House, Coffee, BookA, Footprints } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from 'framer-motion';
 import Map, { Marker } from 'react-map-gl';
@@ -13,10 +13,10 @@ interface MapWidgetProps {
 }
 
 export function MapWidget({ isDark }: MapWidgetProps) {
-  const homeCoords1: [number, number] = [-121.8847, 37.3362]; // Home1
-  const coffeeCoords: [number, number] = [-121.8885, 37.3371]; // Coffee Place
-  const collegeCoords: [number, number] = [-121.8819, 37.3352]; // College
-  const homeCoords2: [number, number] = [-121.8867, 37.334]; // Home2
+  const homeCoords1 = useMemo(() => [-121.8847, 37.3362] as [number, number], []);
+  const coffeeCoords = useMemo(() => [-121.8885, 37.3371] as [number, number], []);
+  const collegeCoords = useMemo(() => [-121.8819, 37.3352] as [number, number], []);
+  const homeCoords2 = useMemo(() => [-121.8867, 37.334] as [number, number], []);
 
   const route = useMemo(() => {
     return [
@@ -102,13 +102,13 @@ export function MapWidget({ isDark }: MapWidgetProps) {
               <House className="text-blue-500 w-6 h-6" />
             </Marker>
 
-            {/* Animated Moving Icon */}
+            {/* Animated Moving Footprints */}
             <Marker longitude={animatedPoint[0]} latitude={animatedPoint[1]}>
               <motion.div
                 animate={{ scale: [0.8, 1.2, 0.8] }}
                 transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
               >
-                <MapPinHouse className="text-blue-500 w-6 h-6" />
+                <Footprints className="text-blue-500 w-6 h-6" />
               </motion.div>
             </Marker>
           </Map>

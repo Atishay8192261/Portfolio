@@ -38,9 +38,14 @@ export function GitHubWidget({ isDark }: GitHubWidgetProps) {
         const contributions = await fetchGitHubContributions();
         console.log("Fetched Contributions:", contributions); // Debugging log
         setGithubData(contributions);
-      } catch (err: any) {
-        console.error("Error fetching GitHub contributions:", err);
-        setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          console.error("Error fetching GitHub contributions:", err);
+          setError(err.message); // Safely access message
+        } else {
+          console.error("Unknown error occurred:", err);
+          setError("An unknown error occurred.");
+        }
       }
     };
 

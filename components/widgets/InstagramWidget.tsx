@@ -48,7 +48,7 @@ export function InstagramWidget({ isDark }: InstagramWidgetProps) {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + dummyPost.images.length) % dummyPost.images.length);
   };
 
-  const IconLink = ({ children, ariaLabel }) => (
+  const IconLink = ({ children, ariaLabel }: { children: React.ReactNode; ariaLabel: string }) => (
     <Link href={profileLink} className="hover:text-blue-500 transition-colors" aria-label={ariaLabel}>
       {children}
     </Link>
@@ -69,7 +69,7 @@ export function InstagramWidget({ isDark }: InstagramWidgetProps) {
             </Link>
             <div>
               <Link href={profileLink} className="text-sm font-semibold hover:underline">
-                atishayjain95
+                atie_rocks
               </Link>
               <p className="text-xs text-gray-500">450 followers</p>
             </div>

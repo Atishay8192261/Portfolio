@@ -11,8 +11,6 @@ export async function dbConnect() {
     return;
   }
 
-  await mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  // Connect using the updated syntax
+  await mongoose.connect(MONGO_URI);
 }

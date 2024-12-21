@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Atishay Jain Codes",
+  title: "Atie Codes",
   description: "Welcome to my Portfolio Website",
 };
 

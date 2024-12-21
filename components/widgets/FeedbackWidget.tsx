@@ -143,7 +143,9 @@ export function FeedbackWidget({ isDark }: FeedbackWidgetProps) {
           {currentQuestion.type === "input" && (
             <input
               type="text"
-              className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 ${
+                isDark ? 'bg-[#1e1e2f] text-white border-gray-600' : 'bg-white text-black border-gray-300'
+              }`}
               placeholder="Enter your name"
               value={feedback.name}
               onChange={(e) => setFeedback({ ...feedback, name: e.target.value })}
@@ -151,7 +153,9 @@ export function FeedbackWidget({ isDark }: FeedbackWidgetProps) {
           )}
           {currentQuestion.type === "textarea" && (
             <textarea
-              className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 ${
+                isDark ? 'bg-[#1e1e2f] text-white border-gray-600' : 'bg-white text-black border-gray-300'
+              }`}
               rows={4}
               placeholder="Your suggestions..."
               value={feedback.additionalSuggestions}
@@ -160,6 +164,7 @@ export function FeedbackWidget({ isDark }: FeedbackWidgetProps) {
               }
             />
           )}
+
         </div>
         <motion.div
           whileHover={{ scale: 1.05 }}
