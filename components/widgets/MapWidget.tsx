@@ -1,9 +1,9 @@
 'use client';
 
-import { MapPin, Navigation2 } from 'lucide-react';
+import { MapPin, Navigation2, MapPinHouse, House, Coffee, BookA } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from 'framer-motion';
-import Map, { Source, Layer, Marker } from 'react-map-gl';
+import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import * as turf from '@turf/turf';
 import { useEffect, useMemo, useState } from 'react';
@@ -13,62 +13,43 @@ interface MapWidgetProps {
 }
 
 export function MapWidget({ isDark }: MapWidgetProps) {
-  const homeCoords: [number, number] = [-121.8847, 37.3362];
+  const homeCoords1: [number, number] = [-121.8847, 37.3362]; // Home1
+  const coffeeCoords: [number, number] = [-121.8885, 37.3371]; // Coffee Place
+  const collegeCoords: [number, number] = [-121.8819, 37.3352]; // College
+  const homeCoords2: [number, number] = [-121.8867, 37.334]; // Home2
 
-  const places = [
-    { id: "coffee", name: "Philz Coffee", coords: [-121.8885, 37.3371], icon: "☕" },
-    { id: "study", name: "San Jose State University", coords: [-121.8819, 37.3352], icon: "📘" },
-    { id: "friend", name: "The Grad", coords: [-121.882, 37.334], icon: "🏡" },
-  ];
-
-  // Memoize the route to prevent re-creation on every render
   const route = useMemo(() => {
-    return [homeCoords, ...places.map((p) => p.coords), homeCoords];
-  }, [homeCoords, places]);
+    return [
+      homeCoords1,
+      coffeeCoords,
+      collegeCoords,
+      homeCoords2,
+      homeCoords1, // Loop back to Home1
+    ];
+  }, [homeCoords1, coffeeCoords, collegeCoords, homeCoords2]);
 
-  // State for animated route
-  const [animatedRoute, setAnimatedRoute] = useState<GeoJSON.FeatureCollection<GeoJSON.Geometry>>({
-    type: "FeatureCollection",
-    features: [],
-  });
+  const [animatedPoint, setAnimatedPoint] = useState<[number, number]>(route[0]); // Current animated point
 
   useEffect(() => {
     const fullLine = turf.lineString(route);
     const totalDistance = turf.length(fullLine, { units: 'kilometers' });
-    const segmentCount = 500; // Number of segments for smooth animation
-    const stepDistance = totalDistance / segmentCount;
-
+    const animationSpeed = 0.01; // Adjust this for faster/slower motion
     let currentDistance = 0;
-    const animatedCoords: number[][] = [route[0]];
 
     const interval = setInterval(() => {
-      currentDistance += stepDistance;
+      currentDistance += animationSpeed;
+
       if (currentDistance > totalDistance) {
-        clearInterval(interval); // End animation
-        return;
+        currentDistance = 0; // Reset for looped animation
       }
 
-      // Get the next point along the line
       const nextPoint = turf.along(fullLine, currentDistance, { units: 'kilometers' }).geometry
-        .coordinates;
+        .coordinates as [number, number];
 
-      animatedCoords.push(nextPoint);
-      setAnimatedRoute({
-        type: "FeatureCollection",
-        features: [
-          {
-            type: "Feature",
-            geometry: {
-              type: "LineString",
-              coordinates: animatedCoords,
-            },
-            properties: null
-          },
-        ],
-      });
+      setAnimatedPoint(nextPoint);
     }, 50); // Adjust interval speed for smooth animation
 
-    return () => clearInterval(interval); // Cleanup on component unmount
+    return () => clearInterval(interval);
   }, [route]);
 
   return (
@@ -101,30 +82,35 @@ export function MapWidget({ isDark }: MapWidgetProps) {
             mapStyle="mapbox://styles/mapbox/dark-v10"
             mapboxAccessToken="pk.eyJ1IjoiYXRpc2hheWphaW44MTkyMjYxIiwiYSI6ImNtNHZ2cnZnOTA4YjQyanM3M2J2djJyMGQifQ.IxnpVGde2QgtMig03b9Jnw"
           >
-            {/* Home Marker */}
-            <Marker longitude={homeCoords[0]} latitude={homeCoords[1]}>
-              <div className="text-2xl">🏠</div>
+            {/* Home1 Marker */}
+            <Marker longitude={homeCoords1[0]} latitude={homeCoords1[1]}>
+              <MapPinHouse className="text-blue-500 w-6 h-6" />
             </Marker>
 
-            {/* Place Markers */}
-            {places.map((place) => (
-              <Marker key={place.id} longitude={place.coords[0]} latitude={place.coords[1]}>
-                <div className="text-2xl cursor-pointer">{place.icon}</div>
-              </Marker>
-            ))}
+            {/* Coffee Place Marker */}
+            <Marker longitude={coffeeCoords[0]} latitude={coffeeCoords[1]}>
+              <Coffee className="text-blue-500 w-6 h-6" />
+            </Marker>
 
-            {/* Animated Route */}
-            <Source id="animated-route" type="geojson" data={animatedRoute}>
-              <Layer
-                id="animated-line"
-                type="line"
-                paint={{
-                  "line-color": "#39ff14", // Glowing neon green
-                  "line-width": 4,
-                  "line-opacity": 0.8,
-                }}
-              />
-            </Source>
+            {/* College Marker */}
+            <Marker longitude={collegeCoords[0]} latitude={collegeCoords[1]}>
+              <BookA className="text-blue-500 w-6 h-6" />
+            </Marker>
+
+            {/* Home2 Marker */}
+            <Marker longitude={homeCoords2[0]} latitude={homeCoords2[1]}>
+              <House className="text-blue-500 w-6 h-6" />
+            </Marker>
+
+            {/* Animated Moving Icon */}
+            <Marker longitude={animatedPoint[0]} latitude={animatedPoint[1]}>
+              <motion.div
+                animate={{ scale: [0.8, 1.2, 0.8] }}
+                transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <MapPinHouse className="text-blue-500 w-6 h-6" />
+              </motion.div>
+            </Marker>
           </Map>
         </div>
         <div className="mt-3 flex items-center gap-2">

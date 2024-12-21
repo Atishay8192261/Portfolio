@@ -42,6 +42,7 @@ export const fetchGitHubContributions = async () => {
   if (!response.ok || data.errors) {
     throw new Error(`GitHub API error: ${data.errors?.[0]?.message || response.statusText}`);
   }
+
   interface Week {
     contributionDays: {
       date: string;
@@ -52,6 +53,8 @@ export const fetchGitHubContributions = async () => {
   const allDays = data.data.user.contributionsCollection.contributionCalendar.weeks.flatMap(
     (week: Week) => week.contributionDays
   );
+
+  console.log("All Contribution Days:", allDays); // Debugging log
 
   return allDays.map((day: { contributionCount: number }) => day.contributionCount);
 };

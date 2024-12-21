@@ -12,17 +12,18 @@ interface GitHubWidgetProps {
 }
 
 function getTileColor(count: number, isDark: boolean): string {
+  console.log(`Count: ${count}`); // Debugging log to check contribution counts
   if (isDark) {
     if (count === 0) return 'bg-[#161b22]';
-    if (count <= 9) return 'bg-[#0e4429]';
-    if (count <= 19) return 'bg-[#006d32]';
-    if (count <= 29) return 'bg-[#26a641]';
+    if (count <= 5) return 'bg-[#0e4429]';
+    if (count <= 10) return 'bg-[#006d32]';
+    if (count <= 20) return 'bg-[#26a641]';
     return 'bg-[#39d353]';
   } else {
     if (count === 0) return 'bg-[#ebedf0]';
-    if (count <= 9) return 'bg-[#9be9a8]';
-    if (count <= 19) return 'bg-[#40c463]';
-    if (count <= 29) return 'bg-[#30a14e]';
+    if (count <= 5) return 'bg-[#9be9a8]';
+    if (count <= 10) return 'bg-[#40c463]';
+    if (count <= 20) return 'bg-[#30a14e]';
     return 'bg-[#216e39]';
   }
 }
@@ -35,6 +36,7 @@ export function GitHubWidget({ isDark }: GitHubWidgetProps) {
     const loadContributions = async () => {
       try {
         const contributions = await fetchGitHubContributions();
+        console.log("Fetched Contributions:", contributions); // Debugging log
         setGithubData(contributions);
       } catch (err: any) {
         console.error("Error fetching GitHub contributions:", err);
@@ -82,29 +84,29 @@ export function GitHubWidget({ isDark }: GitHubWidgetProps) {
           </Button>
         </div>
         <div className="flex-grow overflow-y-auto">
-        <div className="flex justify-start w-full overflow-x-auto">
-          <div className="grid grid-flow-col gap-[3px] auto-cols-min py-2 px-1">
-            {weeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="flex flex-col gap-[3px]">
-                {week.map((count: number, dayIndex: number) => (
-                  <motion.div
-                    key={`${weekIndex}-${dayIndex}`}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: (weekIndex * 7 + dayIndex) * 0.001 }}
-                    className={`w-4 h-4 rounded-sm ${getTileColor(count, isDark)}`}
-                    title={`${count} contributions`}
-                  />
-                ))}
-              </div>
-            ))}
+          <div className="flex justify-start w-full overflow-x-auto">
+            <div className="grid grid-flow-col gap-[3px] auto-cols-min py-2 px-1">
+              {weeks.map((week, weekIndex) => (
+                <div key={weekIndex} className="flex flex-col gap-[3px]">
+                  {week.map((count: number, dayIndex: number) => (
+                    <motion.div
+                      key={`${weekIndex}-${dayIndex}`}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: (weekIndex * 7 + dayIndex) * 0.001 }}
+                      className={`w-4 h-4 rounded-sm ${getTileColor(count, isDark)}`}
+                      title={`${count} contributions`}
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
         </div>
         <div className="mt-6 flex items-center justify-between text-sm text-muted-foreground">
           <span>Less</span>
           <div className="flex gap-2">
-            {[0, 9, 19, 29, 39].map((level) => (
+            {[0, 5, 10, 20, 40].map((level) => (
               <div
                 key={level}
                 className={`w-4 h-4 rounded-sm ${getTileColor(level, isDark)}`}

@@ -23,9 +23,9 @@ interface InstagramPost {
 const dummyPost: InstagramPost = {
   id: '1',
   images: [
-    '/IMG_9905.jpg',
+    '/IMG_9907.jpg',
     '/IMG_9906.jpg',
-    '/IMG_9907.jpg'
+    '/IMG_9905.jpg'
   ],
   caption: 'Coding adventures! 💻✨ #DevLife #CodeAndCoffee',
   likes: 120,
