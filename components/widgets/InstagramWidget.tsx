@@ -1,11 +1,12 @@
 'use client';
 
-import { Instagram } from 'lucide-react';
+import { useState } from 'react';
+import { Instagram, Heart, MessageCircle, Send, Bookmark, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 interface InstagramWidgetProps {
   isDark: boolean;
@@ -13,83 +14,142 @@ interface InstagramWidgetProps {
 
 interface InstagramPost {
   id: string;
-  media_url: string;
-  permalink: string;
+  images: string[];
+  caption: string;
+  likes: number;
+  comments: string[];
 }
 
+const dummyPost: InstagramPost = {
+  id: '1',
+  images: [
+    '/IMG_9905.jpg',
+    '/IMG_9906.jpg',
+    '/IMG_9907.jpg'
+  ],
+  caption: 'Coding adventures! 💻✨ #DevLife #CodeAndCoffee',
+  likes: 120,
+  comments: [
+    'Great work! Keep it up! 👍',
+    'Inspiring! What project are you working on?'
+  ]
+};
+
+const profileLink = 'https://www.instagram.com/atie_rocks/';
+
 export function InstagramWidget({ isDark }: InstagramWidgetProps) {
-  const [posts, setPosts] = useState<InstagramPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  useEffect(() => {
-    const fetchInstagramPosts = async () => {
-      try {
-        const response = await fetch('/api/instagram');
-        const data = await response.json();
-        console.log('Fetched Instagram Posts:', data.posts); // Debugging
-        setPosts(data.posts.slice(0, 4)); // Limit to 4 posts
-      } catch (error) {
-        console.error('Error fetching Instagram posts:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % dummyPost.images.length);
+  };
 
-    fetchInstagramPosts();
-  }, []);
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + dummyPost.images.length) % dummyPost.images.length);
+  };
+
+  const IconLink = ({ children, ariaLabel }) => (
+    <Link href={profileLink} className="hover:text-blue-500 transition-colors" aria-label={ariaLabel}>
+      {children}
+    </Link>
+  );
 
   return (
-    <Card className={`backdrop-blur-sm transition-colors duration-300 rounded-3xl ${
+    <Card className={`backdrop-blur-sm transition-colors duration-300 rounded-3xl overflow-hidden ${
       isDark ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
     }`}>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between mb-4">
+      <CardContent className="p-0">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-2">
-            <Instagram className="w-5 h-5" />
-            <span className="font-medium">Instagram</span>
+            <Link href={profileLink}>
+              <Avatar className="w-8 h-8 cursor-pointer">
+                <AvatarImage src="/insta4.JPG" alt="atie_rocks" />
+                <AvatarFallback>AJ</AvatarFallback>
+              </Avatar>
+            </Link>
+            <div>
+              <Link href={profileLink} className="text-sm font-semibold hover:underline">
+                atishayjain95
+              </Link>
+              <p className="text-xs text-gray-500">450 followers</p>
+            </div>
           </div>
           <Button
             variant="secondary"
             size="sm"
-            className="rounded-full"
-            onClick={() => window.open('https://instagram.com/your_username', '_blank')}
+            className="rounded-full text-xs"
+            onClick={() => window.open(profileLink, '_blank')}
           >
-            Follow
+            View profile
           </Button>
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
-          {loading ? (
-            [1, 2, 3, 4].map((i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <div className="rounded-md aspect-square bg-gray-200 animate-pulse" />
-              </motion.div>
-            ))
-          ) : (
-            posts.map((post, i) => (
-              <motion.div
-                key={post.id}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <a href={post.permalink} target="_blank" rel="noopener noreferrer">
-                  <Image
-                    src={post.media_url}
-                    alt={`Instagram Post ${i + 1}`}
-                    width={150}
-                    height={150}
-                    className="rounded-md aspect-square object-cover"
-                  />
-                </a>
-              </motion.div>
-            ))
-          )}
+        <div className="relative">
+          <Image
+            src={dummyPost.images[currentImageIndex]}
+            alt={`Instagram Post Image ${currentImageIndex + 1}`}
+            width={400}
+            height={400}
+            className="w-full h-auto"
+          />
+          <button 
+            onClick={prevImage} 
+            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white rounded-full p-1"
+            aria-label="Previous image"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button 
+            onClick={nextImage} 
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white rounded-full p-1"
+            aria-label="Next image"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        </div>
+
+        <div className="p-4">
+          <div className="flex justify-between mb-2">
+            <div className="flex space-x-4">
+              <IconLink ariaLabel="Like post">
+                <Heart className="w-6 h-6" />
+              </IconLink>
+              <IconLink ariaLabel="Comment on post">
+                <MessageCircle className="w-6 h-6" />
+              </IconLink>
+              <IconLink ariaLabel="Share post">
+                <Send className="w-6 h-6" />
+              </IconLink>
+            </div>
+            <IconLink ariaLabel="Save post">
+              <Bookmark className="w-6 h-6" />
+            </IconLink>
+          </div>
+          <p className="font-semibold text-sm mb-1">{dummyPost.likes.toLocaleString()} likes</p>
+          <p className="text-sm">
+            <Link href={profileLink} className="font-semibold hover:underline">atie_rocks</Link>{' '}
+            {dummyPost.caption}
+          </p>
+          <div className="mt-2 space-y-1">
+            {dummyPost.comments.map((comment, index) => (
+              <p key={index} className="text-sm">{comment}</p>
+            ))}
+          </div>
+          <p className="text-sm text-gray-500 mt-1 hover:underline cursor-pointer">
+            <Link href={profileLink}>View all {dummyPost.comments.length} comments</Link>
+          </p>
+          <div className="flex items-center mt-2">
+            <input 
+              type="text" 
+              placeholder="Add a comment..." 
+              className="flex-grow bg-transparent text-sm focus:outline-none cursor-pointer"
+              onClick={() => window.open(profileLink, '_blank')}
+              readOnly
+            />
+            <Link href={profileLink}>
+              <Instagram className="w-5 h-5 text-gray-500 hover:text-blue-500 transition-colors" />
+            </Link>
+          </div>
         </div>
       </CardContent>
     </Card>

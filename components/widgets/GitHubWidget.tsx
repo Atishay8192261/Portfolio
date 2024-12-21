@@ -57,14 +57,14 @@ export function GitHubWidget({ isDark }: GitHubWidgetProps) {
   });
 
   return (
-    <Card className={`overflow-hidden backdrop-blur-sm transition-colors duration-300 rounded-3xl ${
+    <Card className={`overflow-hidden backdrop-blur-sm transition-colors duration-300 rounded-3xl h-[300px] ${
       isDark ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
     }`}>
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <Github className="w-5 h-5" />
-            <span className="font-medium">GitHub</span>
+      <CardContent className="p-6 h-full flex flex-col">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <Github className="w-6 h-6" />
+            <span className="font-medium text-lg">GitHub Contributions</span>
           </div>
           <Button 
             variant="secondary" 
@@ -81,17 +81,18 @@ export function GitHubWidget({ isDark }: GitHubWidgetProps) {
             </a>
           </Button>
         </div>
-        <div className="flex justify-start w-full">
-          <div className="grid grid-flow-col gap-[2px] auto-cols-min overflow-x-auto py-2 px-1">
+        <div className="flex-grow overflow-y-auto">
+        <div className="flex justify-start w-full overflow-x-auto">
+          <div className="grid grid-flow-col gap-[3px] auto-cols-min py-2 px-1">
             {weeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="flex flex-col gap-[2px]">
+              <div key={weekIndex} className="flex flex-col gap-[3px]">
                 {week.map((count: number, dayIndex: number) => (
                   <motion.div
                     key={`${weekIndex}-${dayIndex}`}
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: (weekIndex * 7 + dayIndex) * 0.001 }}
-                    className={`w-3 h-3 rounded-sm ${getTileColor(count, isDark)}`}
+                    className={`w-4 h-4 rounded-sm ${getTileColor(count, isDark)}`}
                     title={`${count} contributions`}
                   />
                 ))}
@@ -99,13 +100,14 @@ export function GitHubWidget({ isDark }: GitHubWidgetProps) {
             ))}
           </div>
         </div>
-        <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
+        </div>
+        <div className="mt-6 flex items-center justify-between text-sm text-muted-foreground">
           <span>Less</span>
-          <div className="flex gap-1">
+          <div className="flex gap-2">
             {[0, 9, 19, 29, 39].map((level) => (
               <div
                 key={level}
-                className={`w-3 h-3 rounded-sm ${getTileColor(level, isDark)}`}
+                className={`w-4 h-4 rounded-sm ${getTileColor(level, isDark)}`}
               />
             ))}
           </div>

@@ -12,22 +12,34 @@ import { Card, CardContent } from "@/components/ui/card"
 
 const experiences = [
   {
-    year: "2023",
-    title: "Senior Developer",
-    company: "Tech Corp",
-    description: "Led development of core products, managed team of 5 developers, implemented CI/CD pipeline",
+    year: "Jun 2024 – Present",
+    title: "Research Assistant",
+    company: "Genomic Classification with ULMFiT",
+    description: "Configured PyTorch, Fastai, and Biopython on Tailscale. Scaling model to handle 100GB of genomic datasets. Implementing data pre-processing and tokenization strategies. Fine-tuning ULMFiT project with AWD-LSTM for genomic data analysis.",
   },
   {
-    year: "2022",
-    title: "Full Stack Developer",
-    company: "Digital Solutions",
-    description: "Built scalable web applications, optimized database performance, reduced loading times by 40%",
+    year: "Aug 2023 – Dec 2023",
+    title: "Software Engineering Intern",
+    company: "Veena Agencies",
+    description: "Revamped inventory system, enhanced Java app performance. Developed thread-safe real-time data sync module. Created scalable RESTful APIs with Spring Boot. Implemented microservices with Docker and Kubernetes. Boosted system efficiency by 25% and cut order processing times by 15%.",
   },
   {
-    year: "2020",
-    title: "Junior Developer",
-    company: "StartUp Inc",
-    description: "Developed user interfaces, implemented responsive designs, collaborated with design team",
+    year: "Aug 2023 – Dec 2023",
+    title: "Teaching Assistant",
+    company: "Advanced Java Programming",
+    description: "Taught and supported 45+ students in Advanced Java Programming. Conducted weekly whiteboard interviews and problem-solving review sessions.",
+  },
+  {
+    year: "May 2023 – Aug 2023",
+    title: "Research Assistant",
+    company: "Modernizing Deeplasmid: Py3 Migration & GPU Optimization",
+    description: "Reduced DNA sequence reading time by 50%. Boosted GC content calculation efficiency by 80%. Accelerated pentamer identification by 40%. Applied Agile methodologies with Professor William Andreopoulos.",
+  },
+  {
+    year: "Sep 2022 — Dec 2022",
+    title: "Teaching Assistant",
+    company: "Calculus-I,II,III, Data Structures, Physics",
+    description: "Tutored peers in Calculus, Java, Data Structures, and Physics. Gained teaching experience and learned about students' perspectives.",
   },
 ]
 
@@ -41,12 +53,12 @@ export function Experience({ isDark }: ExperienceProps) {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-semibold">Experience</h2>
-      <Timeline position="right">
+      <Timeline position="left">
         {experiences.map((experience, index) => (
           <TimelineItem key={index}>
             <TimelineSeparator>
               <TimelineDot 
-                className={`transition-all duration-300 ${isDark ? 'bg-primary hover:bg-primary-light' : 'bg-primary-foreground hover:bg-primary-dark'}`}
+                className={`transition-all duration-300 cursor-pointer ${isDark ? 'bg-primary hover:bg-primary-light' : 'bg-primary-foreground hover:bg-primary-dark'}`}
                 onClick={() => setExpandedExperience(expandedExperience === index ? null : index)}
               />
               {index < experiences.length - 1 && (
@@ -56,29 +68,40 @@ export function Experience({ isDark }: ExperienceProps) {
             <TimelineContent>
               <AnimatePresence>
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
                 >
                   <Card className={`w-full transition-colors duration-300 ${
-                    isDark ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
-                  }`}>
+                    isDark ? 'bg-white/5 border-white/10 hover:bg-white/10' : 'bg-black/5 border-black/10 hover:bg-black/10'
+                  }`}
+                  style={{
+                    boxShadow: isDark ? '0 0 10px rgba(255, 255, 255, 0.1)' : '0 0 10px rgba(0, 0, 0, 0.1)',
+                  }}>
                     <CardContent className="p-4">
-                      <div className="text-sm text-primary font-medium">
+                      <div className="text-sm text-primary font-medium font-mono">
                         {experience.year}
                       </div>
-                      <h3 className="text-lg font-semibold mt-1">
+                      <h3 className="text-lg font-semibold mt-1 font-mono">
                         {experience.title}
                       </h3>
-                      <div className="text-sm text-muted-foreground mt-1">
+                      <div className="text-sm text-muted-foreground mt-1 font-mono">
                         {experience.company}
                       </div>
-                      {expandedExperience === index && (
-                        <p className="text-sm mt-2 leading-relaxed">
-                          {experience.description}
-                        </p>
-                      )}
+                      <AnimatePresence>
+                        {expandedExperience === index && (
+                          <motion.p
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="text-sm mt-2 leading-relaxed font-mono"
+                          >
+                            {experience.description}
+                          </motion.p>
+                        )}
+                      </AnimatePresence>
                     </CardContent>
                   </Card>
                 </motion.div>

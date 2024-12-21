@@ -10,6 +10,7 @@ import { LinkedInWidget } from './widgets/LinkedInWidget'
 import { InstagramWidget } from './widgets/InstagramWidget'
 import { MapWidget } from './widgets/MapWidget'
 import { ChatGPTWidget } from './widgets/ChatGPTWidget'
+import { FeedbackWidget } from './widgets/FeedbackWidget'
 import { SpotlightWrapper } from './SpotlightWrapper'
 
 export default function PortfolioPage() {
@@ -20,13 +21,12 @@ export default function PortfolioPage() {
   }, [isDark])
 
   const neonColors = {
-    experience: { dark: 'rgba(255, 0, 255, 0.7)', light: 'rgba(255, 0, 255, 0.9)' },
     github: { dark: 'rgba(38, 166, 65, 0.7)', light: 'rgba(64, 196, 99, 0.9)' },
-  
     linkedin: { dark: 'rgba(0, 119, 181, 0.7)', light: 'rgba(0, 119, 181, 0.9)' },
     instagram: { dark: 'rgba(225, 48, 108, 0.7)', light: 'rgba(225, 48, 108, 0.9)' },
     map: { dark: 'rgba(0, 128, 0, 0.7)', light: 'rgba(0, 128, 0, 0.9)' },
     chatgpt: { dark: 'rgba(16, 163, 127, 0.7)', light: 'rgba(16, 163, 127, 0.9)' },
+    feedback: { dark: 'rgba(255, 165, 0, 0.7)', light: 'rgba(255, 165, 0, 0.9)' },
   }
 
   return (
@@ -39,51 +39,55 @@ export default function PortfolioPage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1.5, ease: 'easeInOut' }}
     >
-      <Navbar isDark={isDark} setIsDark={setIsDark} />
+     <Navbar isDark={isDark} setIsDark={setIsDark} />
 
       <div className="max-w-7xl mx-auto px-4 pt-24">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Left Column - Profile and Experience */}
           <div className="lg:col-span-1 space-y-4">
             <Profile />
-            <SpotlightWrapper isDark={isDark} neonColor={neonColors.experience[isDark ? 'dark' : 'light']}>
-              <Experience isDark={isDark} />
-            </SpotlightWrapper>
+            <Experience isDark={isDark} />
           </div>
 
           {/* Right Columns - Widgets Grid */}
-          <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-4 gap-4">
-            {/* GitHub Widget - 3 columns */}
-            <div className="sm:col-span-3 h-full">
+          <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-6 gap-4">
+            {/* GitHub Widget - Full width */}
+            <div className="sm:col-span-6">
               <SpotlightWrapper isDark={isDark} neonColor={neonColors.github[isDark ? 'dark' : 'light']}>
                 <GitHubWidget isDark={isDark} />
               </SpotlightWrapper>
             </div>
 
-            {/* LinkedIn Widget - 1 column */}
-            <div className="sm:col-span-1 h-full">
+            {/* Map Widget - 4 columns */}
+            <div className="sm:col-span-4">
+              <SpotlightWrapper isDark={isDark} neonColor={neonColors.map[isDark ? 'dark' : 'light']}>
+                <MapWidget isDark={isDark} />
+              </SpotlightWrapper>
+            </div>
+
+            {/* LinkedIn Widget - 2 columns */}
+            <div className="sm:col-span-2">
               <SpotlightWrapper isDark={isDark} neonColor={neonColors.linkedin[isDark ? 'dark' : 'light']}>
                 <LinkedInWidget isDark={isDark} />
               </SpotlightWrapper>
             </div>
 
-            {/* Map Widget - 2 columns */}
-            <div className="sm:col-span-2">
-              <SpotlightWrapper isDark={isDark} neonColor={neonColors.map[isDark ? 'dark' : 'light']}>
-                <MapWidget isDark={isDark} />
-              </SpotlightWrapper>
-            </div>
-            
-
-            {/* ChatGPT Widget - 2 columns */}
-            <div className="sm:col-span-2">
+            {/* ChatGPT Widget - 3 columns */}
+            <div className="sm:col-span-3">
               <SpotlightWrapper isDark={isDark} neonColor={neonColors.chatgpt[isDark ? 'dark' : 'light']}>
                 <ChatGPTWidget isDark={isDark} />
               </SpotlightWrapper>
             </div>
 
+            {/* Feedback Widget - 3 columns */}
+            <div className="sm:col-span-3">
+              <SpotlightWrapper isDark={isDark} neonColor={neonColors.feedback[isDark ? 'dark' : 'light']}>
+                <FeedbackWidget isDark={isDark} />
+              </SpotlightWrapper>
+            </div>
+
             {/* Instagram Widget - Full width */}
-            <div className="sm:col-span-4">
+            <div className="sm:col-span-6">
               <SpotlightWrapper isDark={isDark} neonColor={neonColors.instagram[isDark ? 'dark' : 'light']}>
                 <InstagramWidget isDark={isDark} />
               </SpotlightWrapper>
@@ -91,6 +95,6 @@ export default function PortfolioPage() {
           </div>
         </div>
       </div>
-    </motion.div>
-  )
-}
+      </motion.div>
+      )
+      }
