@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Send } from 'lucide-react';
+import React, { useState } from "react";
+import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import Image from 'next/image';
+import Image from "next/image";
 
 interface ChatGPTWidgetProps {
   isDark: boolean;
 }
 
 export function ChatGPTWidget({ isDark }: ChatGPTWidgetProps) {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
-    { role: 'assistant', content: 'Hello! Ask me anything about Atishay Jain.' },
+    { role: "assistant", content: "Hello! Ask me anything about Atishay Jain." },
   ]);
   const [loading, setLoading] = useState(false);
 
@@ -22,25 +22,31 @@ export function ChatGPTWidget({ isDark }: ChatGPTWidgetProps) {
     e.preventDefault();
     if (!input.trim()) return;
 
-    const userMessage = { role: 'user', content: input };
+    const userMessage = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
-    setInput('');
+    setInput("");
     setLoading(true);
 
     try {
-      const response = await fetch('/api/chatgpt', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/chatgpt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: input }),
       });
 
       const data = await response.json();
-      const assistantMessage = { role: 'assistant', content: data.response || 'Sorry, I could not fetch a response.' };
+      const assistantMessage = {
+        role: "assistant",
+        content: data.response || "I'm not sure, can you rephrase?",
+      };
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-      console.error('Error:', error);
-      setMessages((prev) => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
+      console.error("Error:", error);
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: "Something went wrong. Please try again." },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -49,18 +55,12 @@ export function ChatGPTWidget({ isDark }: ChatGPTWidgetProps) {
   return (
     <Card
       className={`backdrop-blur-sm h-full transition-colors duration-300 rounded-3xl ${
-        isDark ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
+        isDark ? "bg-white/5 border-white/10" : "bg-black/5 border-black/10"
       }`}
     >
       <CardContent className="p-6">
         <div className="flex items-center gap-2 mb-4">
-          <Image
-            src="/chatgpt.png"
-            alt="ChatGPT Logo"
-            width={24}
-            height={24}
-            className="rounded-full"
-          />
+          <Image src="/chatgpt.png" alt="ChatGPT Logo" width={24} height={24} className="rounded-full" />
           <span className="font-medium">AI Assistant</span>
         </div>
         <div className="h-[200px] overflow-y-auto mb-4 space-y-2">
@@ -68,9 +68,9 @@ export function ChatGPTWidget({ isDark }: ChatGPTWidgetProps) {
             <div
               key={index}
               className={`p-2 rounded-2xl ${
-                message.role === 'user'
-                  ? 'bg-primary/20 ml-auto max-w-[80%] rounded-tr-sm'
-                  : 'bg-muted max-w-[80%] rounded-tl-sm'
+                message.role === "user"
+                  ? "bg-primary/20 ml-auto max-w-[80%] rounded-tr-sm"
+                  : "bg-muted max-w-[80%] rounded-tl-sm"
               }`}
             >
               <p className="text-sm">{message.content}</p>
@@ -91,7 +91,12 @@ export function ChatGPTWidget({ isDark }: ChatGPTWidgetProps) {
             className="rounded-full px-4"
             disabled={loading}
           />
-          <Button type="submit" size="icon" className="rounded-full w-10 h-10 p-0" disabled={loading}>
+          <Button
+            type="submit"
+            size="icon"
+            className="rounded-full w-10 h-10 p-0"
+            disabled={loading}
+          >
             <Send className="w-4 h-4" />
           </Button>
         </form>

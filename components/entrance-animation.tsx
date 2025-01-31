@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { TypeAnimation } from 'react-type-animation';
 import { motion, useAnimation } from 'framer-motion';
+import '../styles/responsive.css'; // Import CSS
 
 export function EntranceAnimationComponent({ onComplete }: { onComplete: () => void }) {
   const [showContent, setShowContent] = useState(false);
@@ -22,20 +23,20 @@ export function EntranceAnimationComponent({ onComplete }: { onComplete: () => v
       animate={controls}
       initial={{ opacity: 1, y: 0 }}
     >
-      <div className="w-[1440px] h-[900px] bg-black rounded-lg p-8 relative overflow-hidden font-mono flex flex-col items-center justify-center">
+      <div className="responsive-container w-full h-full max-w-screen-lg max-h-screen-md bg-black rounded-lg p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 relative overflow-hidden font-mono flex flex-col items-center justify-center responsive-text">
         {/* First heading */}
         <TypeAnimation
           sequence={[
-            'Hi My Name is Atishay Jian', // Intentional typo
-            2000, // Reduced pause duration
-            'Hi My Name is Atishay Jain', // Correction
+            'Hi My Name is Atishay Jian', 
+            2000, 
+            'Hi My Name is Atishay Jain', 
             2000,
             () => setShowContent(true),
           ]}
           wrapper="h1"
           cursor={true}
           repeat={0}
-          speed={50} // Faster typing speed
+          speed={50}
           style={{
             fontSize: '3em',
             display: 'inline-block',
@@ -49,7 +50,7 @@ export function EntranceAnimationComponent({ onComplete }: { onComplete: () => v
         <TypeAnimation
           sequence={[
             'I Breathe!',
-            2000, // Reduced pause duration
+            2000,
             'I Code;',
             2000,
             'I Chug Coffee...',
@@ -58,7 +59,7 @@ export function EntranceAnimationComponent({ onComplete }: { onComplete: () => v
           wrapper="h2"
           cursor={true}
           repeat={Infinity}
-          speed={50} // Faster typing speed
+          speed={50}
           style={{
             fontSize: '2em',
             display: 'inline-block',
