@@ -11,20 +11,21 @@ interface GitHubWidgetProps {
   isDark: boolean;
 }
 
+// Function to dynamically determine tile color based on contribution count
 function getTileColor(count: number, isDark: boolean): string {
   console.log(`Count: ${count}`); // Debugging log to check contribution counts
   if (isDark) {
     if (count === 0) return 'bg-[#161b22]';
-    if (count <= 5) return 'bg-[#0e4429]';
-    if (count <= 10) return 'bg-[#006d32]';
-    if (count <= 20) return 'bg-[#26a641]';
+    if (count <= 2) return 'bg-[#0e4429]';
+    if (count <= 5) return 'bg-[#006d32]';
+    if (count <= 10) return 'bg-[#26a641]';
     return 'bg-[#39d353]';
   } else {
     if (count === 0) return 'bg-[#ebedf0]';
-    if (count <= 5) return 'bg-[#9be9a8]';
-    if (count <= 10) return 'bg-[#40c463]';
-    if (count <= 20) return 'bg-[#30a14e]';
-    return 'bg-[#216e39]';
+    if (count <= 2) return 'bg-[#c6e48b]';
+    if (count <= 5) return 'bg-[#7bc96f]';
+    if (count <= 10) return 'bg-[#239a3b]';
+    return 'bg-[#196127]';
   }
 }
 
@@ -32,33 +33,42 @@ export function GitHubWidget({ isDark }: GitHubWidgetProps) {
   const [githubData, setGithubData] = useState<number[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const loadContributions = async () => {
-      try {
-        const contributions = await fetchGitHubContributions();
-        console.log("Fetched Contributions:", contributions); // Debugging log
-        setGithubData(contributions);
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          console.error("Error fetching GitHub contributions:", err);
-          setError(err.message); // Safely access message
-        } else {
-          console.error("Unknown error occurred:", err);
-          setError("An unknown error occurred.");
-        }
+  // Function to fetch GitHub contributions
+  const loadContributions = async () => {
+    try {
+      const contributions = await fetchGitHubContributions();
+      console.log("Fetched Contributions:", contributions); // Debugging log
+      setGithubData(contributions);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Error fetching GitHub contributions:", err);
+        setError(err.message);
+      } else {
+        console.error("Unknown error occurred:", err);
+        setError("An unknown error occurred.");
       }
-    };
+    }
+  };
 
-    loadContributions();
+  // Fetch contributions initially and set up periodic updates
+  useEffect(() => {
+    loadContributions(); // Fetch on mount
+
+    // Refresh data every 3 hours to keep it up to date
+    const interval = setInterval(loadContributions, 3 * 60 * 60 * 1000);
+    
+    return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
   if (error) {
     return <div className="text-red-500">Error: {error}</div>;
   }
 
-  // Calculate the number of weeks to display (last 52 weeks)
-  const numberOfWeeks = 52;
+  // Ensure we display the last 365 days dynamically
+  const numberOfWeeks = 53; // Adjusted to ensure full year display
   const recentData = githubData?.slice(-numberOfWeeks * 7) || [];
+  
+  // Break the data into weekly chunks
   const weeks = Array.from({ length: numberOfWeeks }, (_, weekIndex) => {
     return recentData.slice(weekIndex * 7, (weekIndex + 1) * 7);
   });
@@ -111,7 +121,7 @@ export function GitHubWidget({ isDark }: GitHubWidgetProps) {
         <div className="mt-6 flex items-center justify-between text-sm text-muted-foreground">
           <span>Less</span>
           <div className="flex gap-2">
-            {[0, 5, 10, 20, 40].map((level) => (
+            {[0, 2, 5, 10, 20].map((level) => (
               <div
                 key={level}
                 className={`w-4 h-4 rounded-sm ${getTileColor(level, isDark)}`}

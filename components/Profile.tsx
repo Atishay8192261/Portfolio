@@ -12,7 +12,7 @@ export function Profile() {
       <div>
         <h1 className="text-4xl font-bold mb-2">Atishay Jain</h1>
         <p className="text-xl text-muted-foreground">
-          Eat | Sleep | Code | Repeat Sharing my journey as a developer.
+          Building SevRidy | Sharing my journey as a developer.
         </p>
       </div>
     </div>
