@@ -12,7 +12,13 @@ import { Card, CardContent } from "@/components/ui/card"
 
 const experiences = [
   {
-    year: "Jun 2024 – Present",
+    year: "Jul 2023 – Present",
+    title: "Teaching Assistant",
+    company: "Advanced Java Programming",
+    description: "I teach and supported 45+ students in Java Programming while conducting weekly whiteboard interviews and problem-solving review sessions.",
+  },
+  {
+    year: "Jun 2024 – Dec 2024",
     title: "Research Assistant",
     company: "Genomic Classification with ULMFiT",
     description: "Configured PyTorch, Fastai, and Biopython on Tailscale. Scaling model to handle 100GB of genomic datasets. Implementing data pre-processing and tokenization strategies. Fine-tuning ULMFiT project with AWD-LSTM for genomic data analysis.",
@@ -23,20 +29,15 @@ const experiences = [
     company: "Veena Agencies",
     description: "Revamped inventory system, enhanced Java app performance. Developed thread-safe real-time data sync module. Created scalable RESTful APIs with Spring Boot. Implemented microservices with Docker and Kubernetes. Boosted system efficiency by 25% and cut order processing times by 15%.",
   },
+
   {
-    year: "Aug 2023 – Dec 2023",
-    title: "Teaching Assistant",
-    company: "Advanced Java Programming",
-    description: "Taught and supported 45+ students in Advanced Java Programming. Conducted weekly whiteboard interviews and problem-solving review sessions.",
-  },
-  {
-    year: "May 2023 – Aug 2023",
+    year: "May 2023 – Jul 2023",
     title: "Research Assistant",
     company: "Modernizing Deeplasmid: Py3 Migration & GPU Optimization",
     description: "Reduced DNA sequence reading time by 50%. Boosted GC content calculation efficiency by 80%. Accelerated pentamer identification by 40%. Applied Agile methodologies with Professor William Andreopoulos.",
   },
   {
-    year: "Sep 2022 — Dec 2022",
+    year: "Jul 2022 — Jan 2023",
     title: "Teaching Assistant",
     company: "Calculus-I,II,III, Data Structures, Physics",
     description: "Tutored peers in Calculus, Java, Data Structures, and Physics. Gained teaching experience and learned about students' perspectives.",
