@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Navbar } from "./Navbar" //idk why this is caysing issue during deployment when it is clearly working
+import { Navbar } from "./Navbar"
 import { Profile } from "./Profile"
 import { EnhancedExperience } from "./EnhancedExperience"
 import { Projects } from "./Projects"
