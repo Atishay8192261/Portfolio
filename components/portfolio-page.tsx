@@ -1,5 +1,6 @@
 "use client"
 
+import { Navbar } from "@/components/Navbar"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Profile } from "./Profile"
@@ -12,7 +13,7 @@ import { MapWidget } from "./widgets/MapWidget"
 import { ChatGPTWidget } from "./widgets/ChatGPTWidget"
 import { FeedbackWidget } from "./widgets/FeedbackWidget"
 import { SpotlightWrapper } from "./SpotlightWrapper"
-import { Navbar } from "@/components/Navbar"
+
 
 export default function PortfolioPage() {
   const [isDark, setIsDark] = useState(true)
