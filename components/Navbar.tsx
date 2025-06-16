@@ -12,7 +12,7 @@ interface NavbarProps {
   setIsDark: (isDark: boolean) => void
 }
 
-export function Navbar({ isDark, setIsDark }: NavbarProps) {
+export function Navbar({ isDark, setIsDark }: NavbarProps) /**this is navnar component**/ {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
 
