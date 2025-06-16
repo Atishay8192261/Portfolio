@@ -2,6 +2,7 @@
 
 import { memo } from "react"
 import { Handle, Position } from "reactflow"
+import type { LucideIcon } from "lucide-react"
 import {
   Database,
   Server,
@@ -32,7 +33,7 @@ interface TechnologyNodeProps {
 }
 
 const getIconComponent = (iconName: string) => {
-  const iconMap: { [key: string]: any } = {
+  const iconMap: { [key: string]: LucideIcon } = {
     database: Database,
     server: Server,
     globe: Globe,

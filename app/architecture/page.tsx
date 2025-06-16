@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
 import ReactFlow, {
   type Node,
+  type Edge,
   Controls,
   Background,
   useNodesState,
@@ -27,8 +28,35 @@ const nodeTypes = {
   technology: TechnologyNode,
 }
 
+// Define the architecture type based on the data structure
+interface Architecture {
+  id: string
+  type: string
+  typeLabel: string
+  title: string
+  description: string
+  experience: string
+  metrics: Array<{
+    icon: string
+    value: string
+    label: string
+  }>
+  techStack: Record<string, Array<{
+    name: string
+    icon: string
+    purpose: string
+  }>>
+  challenges: string[]
+  solutions: string[]
+  learnings: string[]
+  diagram: {
+    nodes: Node[]
+    edges: Edge[]
+  }
+}
+
 export default function ArchitecturePage() {
-  const [isDark, setIsDark] = useState(true)
+  const [isDark] = useState(true)
   const [selectedArchitecture, setSelectedArchitecture] = useState("all")
   const [isLoading, setIsLoading] = useState(true)
 
@@ -412,9 +440,9 @@ export default function ArchitecturePage() {
   )
 }
 
-function ArchitectureDiagram({ architecture, isDark }: { architecture: any; isDark: boolean }) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(architecture.diagram.nodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState(architecture.diagram.edges)
+function ArchitectureDiagram({ architecture, isDark }: { architecture: Architecture; isDark: boolean }) {
+  const [nodes, , onNodesChange] = useNodesState(architecture.diagram.nodes)
+  const [edges, , onEdgesChange] = useEdgesState(architecture.diagram.edges)
 
   const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
     console.log("Node clicked:", node.data)

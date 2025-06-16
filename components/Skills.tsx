@@ -5,13 +5,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ExternalLink } from "lucide-react"
 
-interface Skill {
-  name: string
-  level: number
-  projects: number
-  linkedProjects?: string[]
-  linkedExperience?: string[]
-}
 
 const skillCategories = [
   {

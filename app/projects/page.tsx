@@ -11,7 +11,7 @@ import Link from "next/link"
 import { projects, getProjectsByCategory } from "@/lib/projectsData"
 
 export default function ProjectsPage() {
-  const [isDark, setIsDark] = useState(true)
+  const [isDark] = useState(true)
   const [filter, setFilter] = useState("all")
   const [searchTerm, setSearchTerm] = useState("")
   const [filteredProjects, setFilteredProjects] = useState(projects)
