@@ -1,5 +1,5 @@
 "use client"
-import { Navbar } from "@/components/Navbar"
+import { Navbar } from "@/components/Navbar" //navbar is line 1 to test the deployment build
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Profile } from "@/components/Profile"
