@@ -23,8 +23,8 @@ export function Navbar({ isDark, setIsDark }: NavbarProps) {
   ]
 
   const isActive = (href: string) => {
-    if (href === "/") return pathname === "/"
-    return pathname.startsWith(href)
+    if (pathname && href === "/") return pathname === "/"
+    return pathname && pathname.startsWith(href)
   }
 
   return (
