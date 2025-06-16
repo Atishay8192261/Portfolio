@@ -1,8 +1,7 @@
 "use client"
-
+import { Navbar } from "@/components/Navbar"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Navbar } from "@/components/Navbar"
 import { Profile } from "@/components/Profile"
 import { EnhancedExperience } from "@/components/EnhancedExperience"
 import { Projects } from "@/components/Projects"
