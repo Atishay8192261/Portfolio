@@ -43,7 +43,7 @@ export function EnhancedExperience({ isDark }: EnhancedExperienceProps) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-semibold">Experience</h2>
+      <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Experience</h2>
       <div className="space-y-4">
         {experiences.map((experience, index) => (
           <motion.div

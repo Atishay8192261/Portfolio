@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { MapPin, Mail, Calendar } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import Image from "next/image"
 
 export function Profile() {
   return (
@@ -23,9 +24,13 @@ export function Profile() {
               transition={{ duration: 0.5, delay: 0.2, type: "spring", bounce: 0.3 }}
             >
               <div className="w-28 h-28 rounded-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 p-1">
-                <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
-                  <span className="text-3xl font-bold font-mono text-white">A</span>
-                </div>
+                <Image 
+                  src="/profile.jpg" 
+                  alt="Atishay Jain" 
+                  width={112}
+                  height={112}
+                  className="w-full h-full rounded-full object-cover" 
+                />
               </div>
               <motion.div
                 className="absolute -bottom-1 -right-1 w-7 h-7 bg-green-500 rounded-full border-3 border-black"

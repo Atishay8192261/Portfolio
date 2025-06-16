@@ -23,6 +23,7 @@ import ReactFlow, {
 import "reactflow/dist/style.css"
 import { TechnologyNode } from "@/components/architecture/TechnologyNode"
 import { architectureData } from "@/lib/architectureData"
+import { Navbar } from "@/components/Navbar"
 
 const nodeTypes = {
   technology: TechnologyNode,
@@ -56,7 +57,7 @@ interface Architecture {
 }
 
 export default function ArchitecturePage() {
-  const [isDark] = useState(true)
+  const [isDark, setIsDark] = useState(true)
   const [selectedArchitecture, setSelectedArchitecture] = useState("all")
   const [isLoading, setIsLoading] = useState(true)
 
@@ -135,7 +136,8 @@ export default function ArchitecturePage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <Navbar isDark={isDark} setIsDark={setIsDark} />
+      <div className="max-w-7xl mx-auto px-4 py-12 pt-24">
         {/* Header */}
         <motion.div
           className="flex items-center gap-4 mb-8"

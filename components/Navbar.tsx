@@ -12,7 +12,7 @@ interface NavbarProps {
   setIsDark: (isDark: boolean) => void
 }
 
-export function Navbar({ isDark, setIsDark }: NavbarProps) /**this is navnar component**/ {
+export function Navbar({ isDark, setIsDark }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
 
@@ -20,6 +20,8 @@ export function Navbar({ isDark, setIsDark }: NavbarProps) /**this is navnar com
     { name: "Home", href: "/" },
     { name: "Projects", href: "/projects" },
     { name: "Architecture", href: "/architecture" },
+    { name: "Resume", href: "/resume.pdf", external: true },
+    { name: "Mail", href: "mailto:atishayjain8192261@gmail.com", external: true },
   ]
 
   const isActive = (href: string) => {
@@ -50,40 +52,50 @@ export function Navbar({ isDark, setIsDark }: NavbarProps) /**this is navnar com
             </motion.div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-2">
-            {navItems.map((item, index) => (
-              <Link key={item.name} href={item.href}>
-                <motion.div
-                  className={`relative px-4 py-2 rounded-full text-sm font-mono transition-all duration-300 ${
-                    isActive(item.href)
-                      ? "text-white bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                  whileHover={{
-                    scale: 1.05,
-                    backgroundColor: isActive(item.href)
-                      ? undefined
-                      : isDark
-                        ? "rgba(255,255,255,0.1)"
-                        : "rgba(0,0,0,0.1)",
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                >
-                  {item.name}
-                  {isActive(item.href) && (
+          {/* Desktop Navigation - Centered */}
+          <div className="hidden md:flex items-center justify-center flex-1">
+            <div className="flex items-center space-x-1 bg-black/20 backdrop-blur-sm rounded-full px-2 py-1 border border-white/10">
+              {navItems.map((item, index) =>
+                item.external ? (
+                  <a key={item.name} href={item.href} target="_blank" rel="noopener noreferrer">
                     <motion.div
-                      className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-20"
-                      layoutId="activeTab"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                </motion.div>
-              </Link>
-            ))}
+                      className="px-4 py-2 rounded-full text-sm font-mono transition-all duration-300 text-muted-foreground hover:text-white hover:bg-white/10"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                    >
+                      {item.name}
+                    </motion.div>
+                  </a>
+                ) : (
+                  <Link key={item.name} href={item.href}>
+                    <motion.div
+                      className={`relative px-4 py-2 rounded-full text-sm font-mono transition-all duration-300 ${
+                        isActive(item.href)
+                          ? "text-white bg-white/20"
+                          : "text-muted-foreground hover:text-white hover:bg-white/10"
+                      }`}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                    >
+                      {item.name}
+                      {isActive(item.href) && (
+                        <motion.div
+                          className="absolute inset-0 rounded-full bg-white/10"
+                          layoutId="activeTab"
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        />
+                      )}
+                    </motion.div>
+                  </Link>
+                ),
+              )}
+            </div>
           </div>
 
           {/* Theme Toggle & Mobile Menu */}
@@ -93,7 +105,7 @@ export function Navbar({ isDark, setIsDark }: NavbarProps) /**this is navnar com
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsDark(!isDark)}
-                className="p-2 rounded-full hover:bg-gradient-to-r hover:from-blue-500/20 hover:via-purple-500/20 hover:to-pink-500/20"
+                className="p-2 rounded-full hover:bg-white/10"
               >
                 <motion.div initial={false} animate={{ rotate: isDark ? 0 : 180 }} transition={{ duration: 0.3 }}>
                   {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -126,24 +138,39 @@ export function Navbar({ isDark, setIsDark }: NavbarProps) /**this is navnar com
         >
           <div className="py-4 border-t border-border">
             <div className="flex flex-col space-y-2">
-              {navItems.map((item, index) => (
-                <Link key={item.name} href={item.href}>
-                  <motion.div
-                    className={`block px-4 py-2 rounded-lg text-sm font-mono transition-colors ${
-                      isActive(item.href)
-                        ? "text-white bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                    }`}
-                    onClick={() => setIsMenuOpen(false)}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {item.name}
-                  </motion.div>
-                </Link>
-              ))}
+              {navItems.map((item, index) =>
+                item.external ? (
+                  <a key={item.name} href={item.href} target="_blank" rel="noopener noreferrer">
+                    <motion.div
+                      className="block px-4 py-2 rounded-lg text-sm font-mono transition-colors text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      onClick={() => setIsMenuOpen(false)}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {item.name}
+                    </motion.div>
+                  </a>
+                ) : (
+                  <Link key={item.name} href={item.href}>
+                    <motion.div
+                      className={`block px-4 py-2 rounded-lg text-sm font-mono transition-colors ${
+                        isActive(item.href)
+                          ? "text-white bg-white/20"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      }`}
+                      onClick={() => setIsMenuOpen(false)}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {item.name}
+                    </motion.div>
+                  </Link>
+                ),
+              )}
             </div>
           </div>
         </motion.div>

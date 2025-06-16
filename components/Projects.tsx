@@ -49,7 +49,7 @@ export function Projects({ isDark, showAll = false }: ProjectsProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Featured Projects</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Featured Projects</h2>
         {!showAll && (
           <Link href="/projects">
             <Button variant="ghost" size="sm" className="group">

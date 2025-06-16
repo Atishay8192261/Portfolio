@@ -1,20 +1,18 @@
 "use client"
 
-
-import { Navbar } from "./Navbar"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Profile } from "./Profile"
-import { EnhancedExperience } from "./EnhancedExperience"
-import { Projects } from "./Projects"
-import { GitHubWidget } from "./widgets/GitHubWidget"
-import { LinkedInWidget } from "./widgets/LinkedInWidget"
-import { InstagramWidget } from "./widgets/InstagramWidget"
-import { MapWidget } from "./widgets/MapWidget"
-import { ChatGPTWidget } from "./widgets/ChatGPTWidget"
-import { FeedbackWidget } from "./widgets/FeedbackWidget"
-import { SpotlightWrapper } from "./SpotlightWrapper"
-
+import { Navbar } from "@/components/Navbar"
+import { Profile } from "@/components/Profile"
+import { EnhancedExperience } from "@/components/EnhancedExperience"
+import { Projects } from "@/components/Projects"
+import { GitHubWidget } from "@/components/widgets/GitHubWidget"
+import { LinkedInWidget } from "@/components/widgets/LinkedInWidget"
+import { InstagramWidget } from "@/components/widgets/InstagramWidget"
+import { MapWidget } from "@/components/widgets/MapWidget"
+import { ChatGPTWidget } from "@/components/widgets/ChatGPTWidget"
+import { FeedbackWidget } from "@/components/widgets/FeedbackWidget"
+import { SpotlightWrapper } from "@/components/SpotlightWrapper"
 
 export default function PortfolioPage() {
   const [isDark, setIsDark] = useState(true)

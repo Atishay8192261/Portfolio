@@ -9,9 +9,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { projects, getProjectsByCategory } from "@/lib/projectsData"
+import { Navbar } from "@/components/Navbar"
 
 export default function ProjectsPage() {
-  const [isDark] = useState(true)
+  const [isDark, setIsDark] = useState(true)
   const [filter, setFilter] = useState("all")
   const [searchTerm, setSearchTerm] = useState("")
   const [filteredProjects, setFilteredProjects] = useState(projects)
@@ -115,7 +116,8 @@ export default function ProjectsPage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <Navbar isDark={isDark} setIsDark={setIsDark} />
+      <div className="max-w-7xl mx-auto px-4 py-12 pt-24">
         <motion.div
           className="flex items-center gap-4 mb-8"
           initial={{ opacity: 0, y: -20 }}
