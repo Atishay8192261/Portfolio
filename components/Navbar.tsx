@@ -20,7 +20,7 @@ export function Navbar({ isDark, setIsDark }: NavbarProps) {
     { name: "Home", href: "/" },
     { name: "Projects", href: "/projects" },
     { name: "Architecture", href: "/architecture" },
-    { name: "Resume", href: "/resume.pdf", external: true },
+    { name: "Resume", href: "https://www.overleaf.com/read/psjcgjsythmg#d48c3e", external: true },
     { name: "Mail", href: "mailto:atishayjain8192261@gmail.com", external: true },
   ]
 
