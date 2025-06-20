@@ -36,9 +36,8 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/Atishay8192261/ai-product-reviewer",
     featured: true,
     category: "ai/ml",
-    status: "completed",
+    status: "in-progress",
     startDate: "2024-10",
-    endDate: "Work In Progress",
     highlights: [
       "Achieved sub-500ms latency through optimized token-per-second inference",
       "Integrated Hume EVI2 API for emotional sentiment analysis",
@@ -58,8 +57,9 @@ export const projects: Project[] = [
     liveUrl: "https://sevridy.vercel.app/",
     featured: true,
     category: "web",
-    status: "in-progress",
+    status: "completed",
     startDate: "2025-01",
+    endDate: "2025-03",
     highlights: [
       "Reduced user friction by 30% through testing and UX optimization",
       "Implemented Elastic Search for improved service discovery",
@@ -80,8 +80,8 @@ export const projects: Project[] = [
     featured: true,
     category: "web",
     status: "completed",
-    startDate: "2024-03",
-    endDate: "2024-05",
+    startDate: "2024-09",
+    endDate: "2024-12",
     highlights: [
       "Instant UI updates with <200ms latency for expense tracking",
       "Automated budget notifications using database triggers",
@@ -101,8 +101,8 @@ export const projects: Project[] = [
     featured: false,
     category: "web",
     status: "completed",
-    startDate: "2023-09",
-    endDate: "2024-01",
+    startDate: "2024-05",
+    endDate: "2024-07",
     highlights: [
       "Reduced deployment time by 40% through automated Maven builds",
       "Enhanced MySQL performance with indexing and query optimization",
