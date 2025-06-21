@@ -32,16 +32,32 @@ export function ChatGPTWidget({ isDark }: ChatGPTWidgetProps) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [rateLimitInfo, setRateLimitInfo] = useState<{ remaining: number; resetTime?: number } | null>(null)
+  const [isInitialLoad, setIsInitialLoad] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    // Only scroll if it's not the initial load to prevent auto-scrolling on page load
+    if (!isInitialLoad) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
   }
 
   useEffect(() => {
     scrollToBottom()
+    // Mark initial load as complete after first render
+    if (isInitialLoad) {
+      setIsInitialLoad(false)
+    }
   }, [messages])
+
+  // Prevent input from auto-focusing on load
+  useEffect(() => {
+    // Don't auto-focus the input to prevent scrolling
+    if (inputRef.current) {
+      inputRef.current.blur()
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -254,6 +270,7 @@ export function ChatGPTWidget({ isDark }: ChatGPTWidgetProps) {
             className="rounded-full px-4 flex-1"
             disabled={loading || !!rateLimitInfo?.resetTime}
             maxLength={500}
+            autoFocus={false}
           />
           <Button
             type="submit"
