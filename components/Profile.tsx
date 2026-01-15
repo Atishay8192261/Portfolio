@@ -55,7 +55,7 @@ export function Profile() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.4 }}
             >
-              Software Engineer & AI Researcher
+              Software Engineer & AI Explorer
             </motion.p>
 
             {/* Status Badge */}
@@ -78,7 +78,7 @@ export function Profile() {
             >
               {[
                 { icon: MapPin, text: "San Jose, CA" },
-                { icon: Calendar, text: "CS @ SJSU" },
+                { icon: Calendar, text: "MS in CS'27 @ SCU | BS in CS @ SJSU" },
                 { icon: Mail, text: "Open to connect" },
               ].map((item, index) => (
                 <motion.div

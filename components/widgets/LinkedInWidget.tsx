@@ -29,7 +29,7 @@ export function LinkedInWidget({ isDark }: LinkedInWidgetProps) {
         <div className="space-y-3">
           <div>
             <h3 className="text-lg font-semibold">Atishay Jain</h3>
-            <p className="text-sm text-muted-foreground">Lab Instructor @ SJSU</p>
+            <p className="text-sm text-muted-foreground">Student Assistant @ SCU</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Badge variant="secondary" className="rounded-full text-xs py-1 px-3">Software Engineering</Badge>
