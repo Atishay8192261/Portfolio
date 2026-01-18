@@ -12,6 +12,11 @@ import { MapWidget } from "@/components/widgets/MapWidget"
 import { ChatGPTWidget } from "@/components/widgets/ChatGPTWidget"
 import { FeedbackWidget } from "@/components/widgets/FeedbackWidget"
 import { SpotlightWrapper } from "@/components/SpotlightWrapper"
+import { ParticleBackground } from "@/components/ParticleBackground"
+import { ScrollProgress } from "@/components/ScrollProgress"
+import { CustomCursor } from "@/components/CustomCursor"
+import { Footer } from "@/components/Footer"
+import { TechStackOrbit } from "@/components/TechStackOrbit"
 
 export default function PortfolioPage() {
   const [isDark, setIsDark] = useState(true)
@@ -24,12 +29,12 @@ export default function PortfolioPage() {
   }, [isDark])
 
   const neonColors = {
-    github: { dark: "rgba(38, 166, 65, 0.7)", light: "rgba(64, 196, 99, 0.9)" },
-    linkedin: { dark: "rgba(0, 119, 181, 0.7)", light: "rgba(0, 119, 181, 0.9)" },
-    instagram: { dark: "rgba(225, 48, 108, 0.7)", light: "rgba(225, 48, 108, 0.9)" },
-    map: { dark: "rgba(0, 128, 0, 0.7)", light: "rgba(0, 128, 0, 0.9)" },
-    chatgpt: { dark: "rgba(16, 163, 127, 0.7)", light: "rgba(16, 163, 127, 0.9)" },
-    feedback: { dark: "rgba(255, 165, 0, 0.7)", light: "rgba(255, 165, 0, 0.9)" },
+    github: { dark: "rgba(34, 197, 94, 0.4)", light: "rgba(22, 163, 74, 0.3)" },
+    linkedin: { dark: "rgba(59, 130, 246, 0.4)", light: "rgba(37, 99, 235, 0.3)" },
+    instagram: { dark: "rgba(236, 72, 153, 0.4)", light: "rgba(219, 39, 119, 0.3)" },
+    map: { dark: "rgba(34, 197, 94, 0.4)", light: "rgba(22, 163, 74, 0.3)" },
+    chatgpt: { dark: "rgba(20, 184, 166, 0.4)", light: "rgba(13, 148, 136, 0.3)" },
+    feedback: { dark: "rgba(251, 191, 36, 0.4)", light: "rgba(245, 158, 11, 0.3)" },
   }
 
   if (isLoading) {
@@ -80,24 +85,29 @@ export default function PortfolioPage() {
 
   return (
     <motion.div
-      className={`min-h-screen transition-colors duration-300 ${
+      className={`min-h-screen transition-colors duration-300 relative ${
         isDark ? "bg-black text-white" : "bg-white text-black"
       }`}
-      style={{ fontFamily: "IBM Plex Mono, monospace" }}
+      style={{ fontFamily: "IBM Plex Mono, monospace", cursor: "none" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
+      {/* Background Effects */}
+      <ParticleBackground isDark={isDark} />
+      <CustomCursor />
+      <ScrollProgress />
+      
       <Navbar isDark={isDark} setIsDark={setIsDark} />
 
-      <div className="max-w-7xl mx-auto px-4 pt-24">
+      <div className="max-w-7xl mx-auto px-4 pt-24 relative z-10">
         <motion.div
           className="grid grid-cols-1 lg:grid-cols-3 gap-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          {/* Left Column - Profile, Experience, and Projects */}
+          {/* Left Column - Profile, Tech Stack Orbit, Experience, and Projects */}
           <motion.div
             className="lg:col-span-1 space-y-8"
             initial={{ opacity: 0, x: -30 }}
@@ -105,6 +115,7 @@ export default function PortfolioPage() {
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             <Profile />
+            <TechStackOrbit isDark={isDark} />
             <EnhancedExperience isDark={isDark} />
             <Projects isDark={isDark} />
           </motion.div>
@@ -193,6 +204,9 @@ export default function PortfolioPage() {
           </motion.div>
         </motion.div>
       </div>
+      
+      {/* Footer */}
+      <Footer isDark={isDark} />
     </motion.div>
   )
 }

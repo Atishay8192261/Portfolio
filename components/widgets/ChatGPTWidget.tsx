@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { Send, Bot, User, AlertCircle, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -32,24 +32,29 @@ export function ChatGPTWidget({ isDark }: ChatGPTWidgetProps) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [rateLimitInfo, setRateLimitInfo] = useState<{ remaining: number; resetTime?: number } | null>(null)
-  const [isInitialLoad, setIsInitialLoad] = useState(true)
+  const isInitialLoadRef = useRef(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const messagesContainerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const previousMessageCountRef = useRef(messages.length)
 
-  const scrollToBottom = () => {
-    // Only scroll if it's not the initial load to prevent auto-scrolling on page load
-    if (!isInitialLoad) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  const scrollToBottom = useCallback(() => {
+    // Scroll only the messages container, not the entire page
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight
     }
-  }
+  }, [])
 
   useEffect(() => {
-    scrollToBottom()
-    // Mark initial load as complete after first render
-    if (isInitialLoad) {
-      setIsInitialLoad(false)
+    // Only scroll if this is not the initial load AND messages have actually been added
+    if (!isInitialLoadRef.current && messages.length > previousMessageCountRef.current) {
+      scrollToBottom()
     }
-  }, [messages])
+    
+    // Update the previous message count and mark initial load as complete
+    previousMessageCountRef.current = messages.length
+    isInitialLoadRef.current = false
+  }, [messages, scrollToBottom])
 
   // Prevent input from auto-focusing on load
   useEffect(() => {
@@ -177,7 +182,7 @@ export function ChatGPTWidget({ isDark }: ChatGPTWidgetProps) {
         </AnimatePresence>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto mb-4 space-y-3 min-h-0">
+        <div ref={messagesContainerRef} className="flex-1 overflow-y-auto mb-4 space-y-3 min-h-0">
           <AnimatePresence initial={false}>
             {messages.map((message, index) => (
               <motion.div
@@ -232,18 +237,35 @@ export function ChatGPTWidget({ isDark }: ChatGPTWidgetProps) {
                   <Bot className="w-3 h-3 text-white" />
                 </div>
                 <div className="bg-white/10 border border-white/20 rounded-2xl rounded-tl-sm p-3 max-w-[80%]">
-                  <div className="flex items-center gap-2">
-                    <div className="flex gap-1">
-                      {[0, 1, 2].map((i) => (
-                        <motion.div
-                          key={i}
-                          className="w-2 h-2 bg-current rounded-full opacity-60"
-                          animate={{ opacity: [0.3, 1, 0.3] }}
-                          transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, delay: i * 0.2 }}
-                        />
-                      ))}
+                  <div className="flex items-center gap-3">
+                    {/* Enhanced AI thinking animation */}
+                    <div className="relative flex items-center justify-center w-8 h-8">
+                      {/* Outer spinning ring */}
+                      <motion.div
+                        className="absolute w-8 h-8 rounded-full border-2 border-transparent border-t-green-500 border-r-blue-500"
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                      />
+                      {/* Inner pulsing core */}
+                      <motion.div
+                        className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-blue-500"
+                        animate={{ 
+                          scale: [1, 1.2, 1],
+                          opacity: [0.7, 1, 0.7]
+                        }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+                      />
                     </div>
-                    <span className="text-sm text-muted-foreground">Thinking...</span>
+                    <div className="flex flex-col">
+                      <motion.span 
+                        className="text-sm font-medium"
+                        animate={{ opacity: [0.7, 1, 0.7] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        AI is thinking
+                      </motion.span>
+                      <span className="text-xs text-muted-foreground">Analyzing your question...</span>
+                    </div>
                   </div>
                 </div>
               </motion.div>

@@ -121,3 +121,17 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Custom cursor - hide default cursor on desktop */
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
+/* Ensure cursor is visible on touch devices */
+@media (pointer: coarse) {
+  * {
+    cursor: auto !important;
+  }
+}

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useEffect, ReactNode } from 'react'
+import React, { useRef, useEffect, useState, ReactNode } from 'react'
 
 interface SpotlightWrapperProps {
   children: ReactNode
@@ -10,6 +10,7 @@ interface SpotlightWrapperProps {
 
 export function SpotlightWrapper({ children, neonColor }: SpotlightWrapperProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [transform, setTransform] = useState({ rotateX: 0, rotateY: 0 })
 
   const applyOverlayMask = (e: PointerEvent) => {
     const container = containerRef.current
@@ -18,10 +19,17 @@ export function SpotlightWrapper({ children, neonColor }: SpotlightWrapperProps)
     const rect = container.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
+    
+    // Calculate rotation based on mouse position (subtle effect)
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+    const rotateX = ((y - centerY) / centerY) * -5 // Max 5 degrees
+    const rotateY = ((x - centerX) / centerX) * 5 // Max 5 degrees
 
     container.style.setProperty('--x', `${x}px`)
     container.style.setProperty('--y', `${y}px`)
     container.style.setProperty('--opacity', '1')
+    setTransform({ rotateX, rotateY })
   }
 
   const removeOverlayMask = () => {
@@ -29,6 +37,7 @@ export function SpotlightWrapper({ children, neonColor }: SpotlightWrapperProps)
     if (!container) return
 
     container.style.setProperty('--opacity', '0')
+    setTransform({ rotateX: 0, rotateY: 0 })
   }
 
   useEffect(() => {
@@ -47,11 +56,13 @@ export function SpotlightWrapper({ children, neonColor }: SpotlightWrapperProps)
   return (
     <div 
       ref={containerRef} 
-      className="relative rounded-xl overflow-hidden"
+      className="relative rounded-xl overflow-hidden transition-transform duration-200 ease-out"
       style={{
         '--x': '0px',
         '--y': '0px',
         '--opacity': '0',
+        transform: `perspective(1000px) rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg)`,
+        transformStyle: 'preserve-3d',
       } as React.CSSProperties}
     >
       {children}

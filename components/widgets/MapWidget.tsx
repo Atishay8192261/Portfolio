@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, Navigation2, MapPinHouse, Landmark, Footprints, Zap } from 'lucide-react';
+import { MapPin, Navigation2, MapPinHouse, Landmark, Footprints } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from 'framer-motion';
 import Map, { Marker, Layer, Source, NavigationControl } from 'react-map-gl';
@@ -62,7 +62,6 @@ export function MapWidget({ isDark }: MapWidgetProps) {
   }, [homeCoords, scuCoords, homeCoords2]);
 
   const [animatedPoint, setAnimatedPoint] = useState<[number, number]>(route[0]);
-  const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
   const [isForward, setIsForward] = useState(true);
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -94,11 +93,6 @@ export function MapWidget({ isDark }: MapWidgetProps) {
         .coordinates as [number, number];
 
       setAnimatedPoint(nextPoint);
-
-      // Update location index based on segments
-      const segmentDistance = totalDistance / (locations.length - 1);
-      const newIndex = Math.floor(currentDistance / segmentDistance);
-      setCurrentLocationIndex(Math.min(newIndex, locations.length - 1));
     }, 50);
 
     return () => clearInterval(interval);
