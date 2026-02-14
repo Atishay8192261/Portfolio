@@ -71,7 +71,7 @@ export function GitHubWidget({ isDark }: GitHubWidgetProps) {
 
   useEffect(() => {
     loadContributions()
-    const interval = setInterval(loadContributions, 3 * 60 * 60 * 1000)
+    const interval = setInterval(loadContributions, 15 * 60 * 1000) // refresh every 15 minutes
     return () => clearInterval(interval)
   }, [])
 

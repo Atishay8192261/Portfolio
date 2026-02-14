@@ -40,6 +40,7 @@ interface GitHubResponse {
 
 export async function GET() {
   try {
+    
     const token = process.env.GITHUB_TOKEN
 
     if (!token) {
