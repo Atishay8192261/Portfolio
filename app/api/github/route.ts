@@ -43,8 +43,11 @@ export async function GET() {
     
     const token = process.env.GITHUB_TOKEN
 
-    if (!token) {
-      return NextResponse.json({ error: "GitHub token not configured" }, { status: 500 })
+    if (!token || token.trim() === "") {
+      return NextResponse.json(
+        { error: "GitHub token not configured. Set GITHUB_TOKEN in .env.local (local) or Vercel Environment Variables, then redeploy." },
+        { status: 500 }
+      )
     }
 
     const today = new Date()
@@ -86,8 +89,9 @@ export async function GET() {
     const data: GitHubResponse = await response.json()
 
     if (!response.ok || data.errors) {
-      console.error("GitHub API error:", data.errors)
-      return NextResponse.json({ error: "Failed to fetch GitHub data" }, { status: 500 })
+      const message = data.errors?.[0]?.message ?? (response.status === 401 ? "Invalid or expired token" : "Failed to fetch GitHub data")
+      console.error("GitHub API error:", response.status, data.errors)
+      return NextResponse.json({ error: message }, { status: response.ok ? 500 : response.status })
     }
 
     const collection = data.data.user.contributionsCollection

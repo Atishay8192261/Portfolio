@@ -44,15 +44,10 @@ export function GitHubWidget({ isDark }: GitHubWidgetProps) {
       setError(null)
 
       const response = await fetch("/api/github")
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
       const data = await response.json()
 
-      if (data.error) {
-        throw new Error(data.error)
+      if (!response.ok || data.error) {
+        throw new Error(data.error ?? `HTTP ${response.status}`)
       }
 
       setGithubData(data)
