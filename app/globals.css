@@ -1,5 +1,3 @@
-@import 'mapbox-gl/dist/mapbox-gl.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -31,6 +29,17 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+
+    /* Micron-personal accent (violet) */
+    --violet: #bd03f7;
+
+    /* ── Liquid Glass tokens (light) ───────────────────────── */
+    --glass-blur: 14px;
+    --glass-saturate: 180%;
+    --glass-bg: rgba(255, 255, 255, 0.55);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.9);
+    --glass-shadow: rgba(0, 0, 0, 0.12);
   }
 
   .dark {
@@ -58,6 +67,12 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    /* ── Liquid Glass tokens (dark) ────────────────────────── */
+    --glass-bg: rgba(255, 255, 255, 0.055);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-highlight: rgba(255, 255, 255, 0.3);
+    --glass-shadow: rgba(0, 0, 0, 0.45);
   }
 }
 
@@ -66,53 +81,77 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background: #1a1a1a; /* leerob dark bg — lifted soft near-black */
+    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--violet);
+    color: #fff;
   }
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* ── Liquid Glass primitives ─────────────────────────────────
+   .glass         → calm frosted material for large content cards
+   .glass-chrome  → small floating chrome (navbar / buttons / slider);
+                    gains real SVG refraction when data-glass="on"
+   ──────────────────────────────────────────────────────────── */
+@layer components {
+  .glass {
+    position: relative;
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      inset 0 1px 0 0 var(--glass-highlight),
+      inset 0 0 22px 0 rgba(255, 255, 255, 0.03),
+      0 18px 44px -18px var(--glass-shadow);
+    border-radius: 1.5rem;
+  }
 
-@media (max-width: 768px) {
-  .text-xl {
-    font-size: 1.25rem;
+  /* specular rim — a thin gradient stroke that catches "light" */
+  .glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.55),
+      rgba(255, 255, 255, 0.06) 28%,
+      transparent 52%,
+      rgba(255, 255, 255, 0.12) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.8;
   }
-  .text-2xl {
-    font-size: 1.5rem;
-  }
-  .text-4xl {
-    font-size: 2.25rem;
-  }
-  .h-14 {
-    height: 3.5rem;
-  }
-  .w-32 {
-    width: 8rem;
-  }
-  .h-32 {
-    height: 8rem;
-  }
-}
 
-@media (max-width: 480px) {
-  .text-xl {
-    font-size: 1rem;
+  .glass-chrome {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.85)) saturate(190%);
+    backdrop-filter: blur(calc(var(--glass-blur) * 0.85)) saturate(190%);
   }
-  .text-2xl {
-    font-size: 1.25rem;
+
+  /* real Apple-style lensing — Chromium only, enabled by GlassProvider */
+  html[data-glass="on"] .glass-chrome {
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.85)) saturate(190%) url(#liquid-glass);
+    backdrop-filter: blur(calc(var(--glass-blur) * 0.85)) saturate(190%) url(#liquid-glass);
   }
-  .text-4xl {
-    font-size: 1.75rem;
-  }
-  .h-14 {
-    height: 3rem;
-  }
-  .w-32 {
-    width: 6rem;
-  }
-  .h-32 {
-    height: 6rem;
+
+  /* graceful fallback where backdrop-filter is unsupported */
+  @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+    .glass,
+    .glass-chrome {
+      background: rgba(18, 18, 20, 0.92);
+    }
   }
 }
 
@@ -122,16 +161,19 @@ body {
   }
 }
 
-/* Custom cursor - hide default cursor on desktop */
-@media (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
+/* ── Ambient background glows (near-black + faint monochrome) ── */
+@keyframes glassDrift1 {
+  0%, 100% { transform: translate(-8%, -6%) scale(1); }
+  50% { transform: translate(10%, 6%) scale(1.18); }
+}
+@keyframes glassDrift2 {
+  0%, 100% { transform: translate(8%, 8%) scale(1.12); }
+  50% { transform: translate(-6%, -8%) scale(1); }
 }
 
-/* Ensure cursor is visible on touch devices */
-@media (pointer: coarse) {
-  * {
-    cursor: auto !important;
-  }
+@media (max-width: 768px) {
+  .text-4xl { font-size: 2.25rem; }
+}
+@media (max-width: 480px) {
+  .text-4xl { font-size: 1.75rem; }
 }
