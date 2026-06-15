@@ -18,14 +18,22 @@ export function Navbar() {
         >
           atie.dev
         </Link>
-        <a
-          href={RESUME_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-foreground/55 transition-colors hover:text-[var(--violet)]"
-        >
-          résumé ↗
-        </a>
+        <div className="flex items-center gap-5">
+          <Link
+            href="/blog"
+            className="text-sm text-foreground/55 transition-colors hover:text-foreground"
+          >
+            blog
+          </Link>
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-foreground/55 transition-colors hover:text-[var(--violet)]"
+          >
+            résumé ↗
+          </a>
+        </div>
       </div>
     </header>
   )
