@@ -1,7 +1,9 @@
 "use client"
 
-import { Github, Linkedin, Mail } from "lucide-react"
+import { Github, Linkedin, Mail, FileText } from "lucide-react"
 import Image from "next/image"
+
+const RESUME_URL = "https://www.overleaf.com/read/psjcgjsythmg#d48c3e"
 
 function MediumIcon({ className }: { className?: string }) {
   return (
@@ -11,61 +13,72 @@ function MediumIcon({ className }: { className?: string }) {
   )
 }
 
-const links = [
+function A({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="font-semibold text-neutral-100 underline decoration-neutral-600 decoration-1 underline-offset-2 transition-colors hover:text-[#bd03f7] hover:decoration-[#bd03f7]"
+    >
+      {children}
+    </a>
+  )
+}
+
+const socials = [
   { label: "GitHub", href: "https://github.com/Atishay8192261", Icon: Github },
   { label: "LinkedIn", href: "https://linkedin.com/in/atishayjain19", Icon: Linkedin },
   { label: "Medium", href: "#", Icon: MediumIcon }, // TODO: real Medium URL
   { label: "Email", href: "mailto:atishayjain@atie.dev", Icon: Mail },
+  { label: "Résumé", href: RESUME_URL, Icon: FileText },
 ]
 
 export function Hero() {
   return (
-    <header className="flex flex-col items-center text-center">
+    <header>
       <Image
         src="/profile.jpg"
         alt="Atishay Jain"
-        width={88}
-        height={88}
+        width={56}
+        height={56}
         priority
-        className="h-[88px] w-[88px] rounded-full object-cover ring-1 ring-white/10"
+        className="h-14 w-14 rounded-full object-cover ring-1 ring-white/10"
       />
 
-      <h1 className="mt-5 text-2xl font-semibold tracking-tight">Atishay Jain</h1>
-      <p className="mt-1.5 text-sm text-foreground/55">
-        SSD Firmware Intern at{" "}
-        <a
-          href="https://www.micron.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-foreground/75 underline-offset-4 hover:text-[var(--violet)] hover:underline"
-        >
-          Micron
-        </a>{" "}
-        · Summer 2026
-      </p>
+      <h1 className="mt-5 text-4xl font-bold leading-[1.05] tracking-tight text-neutral-50 sm:text-5xl">
+        Firmware<span className="text-[#bd03f7]">.</span> Systems
+        <span className="text-[#bd03f7]">.</span> Caffeine
+        <span className="text-[#bd03f7]">.</span>
+      </h1>
 
-      {/* Icon links */}
-      <nav className="mt-4 flex items-center gap-5">
-        {links.map(({ label, href, Icon }) => (
+      <div className="mt-5 space-y-3 text-[15px] leading-relaxed text-neutral-400">
+        <p>
+          Hey, I&apos;m Atishay. I write SSD firmware at <A href="https://www.micron.com">Micron</A> —
+          low-level systems, performance, and the parts most people never see.
+        </p>
+        <p>
+          Previously I built distributed microservices at{" "}
+          <A href="https://veenaagencies.in">Veena Agencies</A>, and did genomics research and TA&apos;d
+          advanced Java at <A href="https://www.sjsu.edu">SJSU</A>. I study CS at{" "}
+          <A href="https://www.scu.edu">Santa Clara University</A> and ship more than I sleep.
+        </p>
+      </div>
+
+      <div className="mt-6 flex items-center gap-5">
+        {socials.map(({ label, href, Icon }) => (
           <a
             key={label}
             href={href}
             target={href.startsWith("mailto:") || href.startsWith("#") ? undefined : "_blank"}
             rel="noopener noreferrer"
             aria-label={label}
-            className="text-foreground/45 transition-colors hover:text-foreground"
+            className="text-neutral-200 transition-colors hover:text-[#bd03f7]"
           >
-            <Icon className="h-[18px] w-[18px]" />
+            <Icon className="h-5 w-5" />
           </a>
         ))}
-      </nav>
-
-      {/* Bio */}
-      <p className="mt-7 max-w-[440px] text-[15px] leading-relaxed text-foreground/70">
-        Hey, I&apos;m Atishay. I write firmware for SSDs at Micron and like living close to the
-        metal — storage, performance, the parts most people never see. I study CS at SCU, build the
-        occasional AI thing on the side, and ship more than I sleep.
-      </p>
+      </div>
     </header>
   )
 }

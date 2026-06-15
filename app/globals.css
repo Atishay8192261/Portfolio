@@ -81,8 +81,8 @@
     @apply border-border;
   }
   body {
-    @apply text-foreground;
-    background: #1a1a1a; /* leerob dark bg — lifted soft near-black */
+    background: #141414; /* dark Steven-Tey variant (leerob-ish soft black) */
+    color: #ededed;
     font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
