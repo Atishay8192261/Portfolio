@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type FormEvent } from "react"
+import { useState, useRef, useEffect, type FormEvent } from "react"
 import { SectionLabel } from "@/components/SectionLabel"
 
 interface Exchange {
@@ -8,16 +8,57 @@ interface Exchange {
   a: string
 }
 
+// Easter egg: a few shell-ish commands answered locally, terminal-style.
+const COMMANDS: Record<string, string> = {
+  whoami: "atishay — ssd firmware intern @ micron, coffee-driven. (try a real question above ☕)",
+  ls: "nandsight  med-bot  top-drl-gpu-scheduler  sevridy  ai-product-review",
+  "ls projects": "nandsight  med-bot  top-drl-gpu-scheduler  sevridy  ai-product-review",
+  help: 'i know Atishay\'s work — try "what did he build at Veena?". for fun: whoami, ls, sudo, resume, clear.',
+  pwd: "/atie.dev/you-are-here",
+  resume: "→ overleaf.com/read/psjcgjsythmg  (also 'résumé ↗' up in the nav)",
+  "cat resume": "→ overleaf.com/read/psjcgjsythmg  (also 'résumé ↗' up in the nav)",
+  coffee: "brewing… ☕ status: always low. fuel for the firmware.",
+}
+
+function runCommand(raw: string): string | "CLEAR" | null {
+  const cmd = raw.trim().toLowerCase()
+  if (cmd === "clear") return "CLEAR"
+  if (cmd.startsWith("sudo")) return "nice try — you don't have sudo here 😄"
+  return COMMANDS[cmd] ?? null
+}
+
 export function AskAI() {
   const [input, setInput] = useState("")
   const [loading, setLoading] = useState(false)
   const [exchanges, setExchanges] = useState<Exchange[]>([])
   const [error, setError] = useState<string | null>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Keep the conversation pinned to the latest reply (scrolls inside the box,
+  // so the page itself never grows).
+  useEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+  }, [exchanges, loading])
 
   const submit = async (e: FormEvent) => {
     e.preventDefault()
     const q = input.trim()
     if (!q || loading) return
+
+    // Intercept terminal-style easter-egg commands before hitting the agent.
+    const cmd = runCommand(q)
+    if (cmd === "CLEAR") {
+      setInput("")
+      setError(null)
+      setExchanges([])
+      return
+    }
+    if (cmd) {
+      setInput("")
+      setError(null)
+      setExchanges((prev) => [...prev, { q, a: cmd }])
+      return
+    }
 
     setInput("")
     setError(null)
@@ -59,8 +100,19 @@ export function AskAI() {
         />
       </form>
 
+      {exchanges.length === 0 && !loading && !error && (
+        <p className="mt-2 text-xs text-foreground/25">
+          psst — i also speak a little shell. try{" "}
+          <span className="font-mono text-foreground/40">whoami</span> or{" "}
+          <span className="font-mono text-foreground/40">help</span>
+        </p>
+      )}
+
       {(exchanges.length > 0 || loading || error) && (
-        <div className="mt-4 space-y-4 text-[15px] leading-relaxed">
+        <div
+          ref={scrollRef}
+          className="chat-scroll mt-4 max-h-72 space-y-4 overflow-y-auto pr-1 text-[15px] leading-relaxed"
+        >
           {exchanges.map((ex, i) => (
             <div key={i} className="space-y-1">
               <p className="text-foreground/45">{ex.q}</p>

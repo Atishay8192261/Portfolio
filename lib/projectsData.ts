@@ -17,41 +17,60 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: "1",
-    title: "AI Product Review System",
-    description: "Emotion-Aware Product Feedback System using AI-driven real-time analysis",
+    id: "nandsight",
+    title: "NANDSight",
+    description:
+      "A NAND / SSD firmware simulator with a C++ test pyramid and a Claude-powered debugging agent.",
     longDescription:
-      "An innovative AI-powered product review system initiated at Cal Hacks to streamline product testing and emotional feedback. Features real-time chat application with WebSocket integration, emotional sentiment analysis, and optimized ML inference achieving sub-500ms latency.",
-    image: "/placeholder.svg?height=300&width=400",
-    technologies: [
-      "React.js",
-      "WebSocket",
-      "Apache Kafka",
-      "Hume EVI2 API",
-      "Llama 3.1-8B",
-      "LoRA",
-      "SSH",
-      "JavaScript",
-    ],
-    githubUrl: "https://github.com/Atishay8192261/ai-product-reviewer",
+      "A simulator for NAND / SSD firmware behavior, built with a layered C++ test pyramid and an AI debugging agent (Claude) that helps trace and reason about failures in the storage stack.",
+    image: "",
+    technologies: ["C++", "Firmware", "Claude", "AI Agent", "Testing"],
+    githubUrl: "https://github.com/Atishay8192261/nandsight",
     featured: true,
     category: "ai/ml",
     status: "in-progress",
-    startDate: "2024-10",
-    highlights: [
-      "Achieved sub-500ms latency through optimized token-per-second inference",
-      "Integrated Hume EVI2 API for emotional sentiment analysis",
-      "Fine-tuned Llama 3.1-8B with LoRA for domain-specific optimization",
-      "Built with Agile methodology and real-time WebSocket communication",
-    ],
+    startDate: "2026-06",
+    highlights: [],
   },
   {
-    id: "2",
-    title: "SevRidy – AI-Powered B2B & B2C Service Platform",
-    description: "Unified platform for B2B/B2C service procurement with responsive, accessible UX",
+    id: "med-bot",
+    title: "Med-Bot",
+    description:
+      "A medical chatbot grounded in a curated corpus of trusted international medical sources to mitigate hallucination in the medical domain.",
     longDescription:
-      "A comprehensive service platform designed for both B2B and B2C markets, featuring AI-powered service discovery, responsive design, and seamless user experience. Built with modern web technologies and optimized for performance and accessibility.",
-    image: "/placeholder.svg?height=300&width=400",
+      "A retrieval-grounded medical assistant that answers from a curated knowledge base of trusted international medical sources, built to reduce hallucinated or unsafe answers in a high-stakes domain.",
+    image: "",
+    technologies: ["Python", "LangChain", "LangGraph", "RAG", "Knowledge Base"],
+    githubUrl: "https://github.com/Atishay8192261/med-bot",
+    featured: true,
+    category: "ai/ml",
+    status: "completed",
+    startDate: "2026-05",
+    highlights: [],
+  },
+  {
+    id: "cloud-gpu-scheduler",
+    title: "Top-DRL GPU Scheduler",
+    description:
+      "A take on Top-DRL: a simulator for topology-aware and congestion-aware GPU scheduling using deep reinforcement learning.",
+    longDescription:
+      "An exploration of Top-DRL — a deep-reinforcement-learning GPU scheduler that is aware of cluster topology and network congestion, with a simulator to evaluate scheduling decisions.",
+    image: "",
+    technologies: ["Python", "Deep RL", "GPU Scheduling", "Simulation", "Cloud"],
+    githubUrl: "https://github.com/Atishay8192261/cloud_computing_project",
+    featured: true,
+    category: "research",
+    status: "completed",
+    startDate: "2026-05",
+    highlights: [],
+  },
+  {
+    id: "sevridy",
+    title: "SevRidy",
+    description: "A unified B2B/B2C service-procurement platform with responsive, accessible UX.",
+    longDescription:
+      "A comprehensive service platform for B2B and B2C markets featuring AI-powered service discovery, Elastic Search, and a responsive, accessible UI.",
+    image: "",
     technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "MongoDB", "Elastic Search", "TypeScript"],
     githubUrl: "https://github.com/Atishay8192261/SevRidy",
     liveUrl: "https://sevridy.vercel.app/",
@@ -60,55 +79,22 @@ export const projects: Project[] = [
     status: "completed",
     startDate: "2025-01",
     endDate: "2025-03",
-    highlights: [
-      "Reduced user friction by 30% through testing and UX optimization",
-      "Implemented Elastic Search for improved service discovery",
-      "Built responsive, accessible UI with modern design principles",
-      "Developed reusable components with clear hierarchy and real-time validation",
-    ],
+    highlights: [],
   },
   {
-    id: "3",
-    title: "Personal Finance Tracker",
-    description: "Feature-rich expense tracking website with smart categorization and real-time sync",
+    id: "ai-product-review",
+    title: "AI Product Review System",
+    description: "An emotion-aware product-feedback system using AI-driven real-time analysis.",
     longDescription:
-      "A comprehensive personal finance management application built with Next.js and Supabase. Features smart transaction tracking, automated budget notifications, and real-time bank data synchronization through Plaid APIs.",
-    image: "/placeholder.svg?height=300&width=400",
-    technologies: ["Next.js", "Supabase", "Plaid API", "TypeScript", "PostgreSQL", "Real-time Sync"],
-    githubUrl: "https://github.com/Atishay8192261/PersonalFinanceTracker",
-    liveUrl: "",
+      "An AI-powered product review system (started at Cal Hacks) with real-time WebSocket chat, emotional sentiment analysis via Hume EVI2, and a LoRA-fine-tuned Llama 3.1-8B for sub-500ms inference.",
+    image: "",
+    technologies: ["React.js", "WebSocket", "Apache Kafka", "Hume EVI2", "Llama 3.1-8B", "LoRA"],
+    githubUrl: "https://github.com/Atishay8192261/ai-product-reviewer",
     featured: true,
-    category: "web",
+    category: "ai/ml",
     status: "completed",
-    startDate: "2024-09",
-    endDate: "2024-12",
-    highlights: [
-      "Instant UI updates with <200ms latency for expense tracking",
-      "Automated budget notifications using database triggers",
-      "Real-time bank data sync through Plaid APIs",
-      "Smart transaction categorization and spending alerts",
-    ],
-  },
-  {
-    id: "4",
-    title: "Plutus",
-    description: "Credit/debit card discount discovery platform with automated builds and performance optimization",
-    longDescription:
-      "A web application helping users discover credit and debit card-linked discounts and perks across vendors. Built with Spring Boot and Dockerized services, featuring automated CI/CD, performance optimization, and high-reliability monitoring.",
-    image: "/placeholder.svg?height=300&width=400",
-    technologies: ["Spring Boot", "Docker", "Maven", "MySQL", "Redis", "GitHub Actions", "Java"],
-    githubUrl: "https://github.com/Atishay8192261/plutus",
-    featured: false,
-    category: "web",
-    status: "completed",
-    startDate: "2024-05",
-    endDate: "2024-07",
-    highlights: [
-      "Reduced deployment time by 40% through automated Maven builds",
-      "Enhanced MySQL performance with indexing and query optimization",
-      "Increased reliability by 35% during high-load tests",
-      "Implemented comprehensive logging and failover monitoring",
-    ],
+    startDate: "2024-10",
+    highlights: [],
   },
 ]
 
@@ -117,6 +103,4 @@ export const getProjectsByCategory = (category: string) => {
   return projects.filter((project) => project.category === category)
 }
 
-export const getFeaturedProjects = () => {
-  return projects.filter((project) => project.featured)
-}
+export const getFeaturedProjects = () => projects.filter((project) => project.featured)

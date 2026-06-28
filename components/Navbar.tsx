@@ -14,14 +14,14 @@ export function Navbar() {
       <div className="mx-auto flex max-w-[600px] items-center justify-between px-5 py-4">
         <Link
           href="/"
-          className="text-sm font-medium tracking-tight text-foreground/80 transition-colors hover:text-foreground"
+          className="text-sm font-semibold tracking-tight text-foreground/90 transition-colors hover:text-foreground"
         >
           atie.dev
         </Link>
         <div className="flex items-center gap-5">
           <Link
             href="/blog"
-            className="text-sm text-foreground/55 transition-colors hover:text-foreground"
+            className="text-sm font-semibold text-foreground/70 transition-colors hover:text-foreground"
           >
             blog
           </Link>
@@ -29,7 +29,7 @@ export function Navbar() {
             href={RESUME_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-foreground/55 transition-colors hover:text-[var(--violet)]"
+            className="text-sm font-semibold text-foreground/70 transition-colors hover:text-[var(--violet)]"
           >
             résumé ↗
           </a>

@@ -28,15 +28,7 @@ export function Experience() {
       <div className="space-y-5">
         {experience.map((org) => (
           <div key={org.org}>
-            <a
-              href={org.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group text-[15px] font-medium text-foreground transition-colors hover:text-[var(--violet)]"
-            >
-              {org.org}
-              <span className="text-foreground/30 group-hover:text-[var(--violet)]"> ↗</span>
-            </a>
+            <div className="text-[15px] font-semibold text-foreground">{org.org}</div>
             <div className="mt-1">
               {org.roles.map((role) => (
                 <Row key={role.title} title={role.title} meta={role.date} muted />

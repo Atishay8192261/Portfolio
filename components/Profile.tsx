@@ -2,6 +2,7 @@
 
 import { Github, Linkedin, Mail } from "lucide-react"
 import Image from "next/image"
+import { NameGeometric } from "@/components/NameVariants"
 
 function MediumIcon({ className }: { className?: string }) {
   return (
@@ -11,41 +12,41 @@ function MediumIcon({ className }: { className?: string }) {
   )
 }
 
+function B({ children }: { children: React.ReactNode }) {
+  return <span className="font-semibold text-foreground">{children}</span>
+}
+
 const links = [
   { label: "GitHub", href: "https://github.com/Atishay8192261", Icon: Github },
   { label: "LinkedIn", href: "https://linkedin.com/in/atishayjain19", Icon: Linkedin },
-  { label: "Medium", href: "#", Icon: MediumIcon }, // TODO: real Medium URL
+  { label: "Medium", href: "https://medium.com/@atishayjain8192261", Icon: MediumIcon },
   { label: "Email", href: "mailto:atishayjain@atie.dev", Icon: Mail },
 ]
 
-export function Hero() {
+export function Hero({ align = "left" }: { align?: "center" | "left" }) {
   return (
-    <header className="flex flex-col items-center text-center">
+    <header
+      className={
+        align === "left"
+          ? "flex flex-col items-start text-left"
+          : "flex flex-col items-center text-center"
+      }
+    >
       <Image
         src="/profile.jpg"
         alt="Atishay Jain"
-        width={88}
-        height={88}
+        width={256}
+        height={320}
         priority
-        className="h-[88px] w-[88px] rounded-full object-cover ring-1 ring-white/10"
+        className="h-40 w-32 rounded-none object-cover ring-1 ring-white/10"
       />
 
-      <h1 className="mt-5 text-2xl font-semibold tracking-tight">Atishay Jain</h1>
-      <p className="mt-1.5 text-sm text-foreground/55">
-        SSD Firmware Intern at{" "}
-        <a
-          href="https://www.micron.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-foreground/75 underline-offset-4 hover:text-[var(--violet)] hover:underline"
-        >
-          Micron
-        </a>{" "}
-        · Summer 2026
-      </p>
+      <div className="mt-6">
+        <NameGeometric />
+      </div>
 
       {/* Icon links */}
-      <nav className="mt-4 flex items-center gap-5">
+      <nav className="mt-5 flex items-center gap-5">
         {links.map(({ label, href, Icon }) => (
           <a
             key={label}
@@ -60,12 +61,25 @@ export function Hero() {
         ))}
       </nav>
 
-      {/* Bio */}
-      <p className="mt-7 max-w-[440px] text-[15px] leading-relaxed text-foreground/70">
-        Hey, I&apos;m Atishay. I write firmware for SSDs at Micron and like living close to the
-        metal — storage, performance, the parts most people never see. I study CS at SCU, build the
-        occasional AI thing on the side, and ship more than I sleep.
-      </p>
+      {/* Intro — full column width, aligned with the Experience section */}
+      <div className="mt-6 space-y-4 text-[15px] font-medium leading-relaxed text-foreground/80">
+        <p>
+          Hey, I&apos;m <B>Atishay Jain</B> (people also call me atie). I&apos;m currently an SSD
+          Firmware
+          Intern at <B>Micron</B>, working
+          on simulation and analysis deep in the storage stack (about all I can say under NDA).
+          Before that I shipped distributed systems at <B>Veena Agencies</B> and ran dense,
+          reproducible genomic machine-learning research at <B>SJSU</B>. These days I&apos;m also
+          studying computer science at <B>SCU</B>.
+        </p>
+        <p>
+          Outside of work, I&apos;m usually tinkering with agentic side-projects, frolicking with
+          whatever model just shipped, and chasing the thrill of taking an idea from zero to one,
+          often over way too much coffee. I care a little too much about craft, taste, and building
+          things that actually compound, so when I&apos;m not heads-down you&apos;ll probably find me
+          exploring the city or falling down some rabbit hole.
+        </p>
+      </div>
     </header>
   )
 }
