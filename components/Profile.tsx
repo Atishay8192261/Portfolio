@@ -65,10 +65,8 @@ export function Hero({ align = "left" }: { align?: "center" | "left" }) {
       <div className="mt-6 space-y-4 text-[15px] font-medium leading-relaxed text-foreground/80">
         <p>
           Hey, I&apos;m <B>Atishay Jain</B> (people also call me atie). I&apos;m currently an SSD
-          Firmware
-          Intern at <B>Micron</B>, working
-          on simulation and analysis deep in the storage stack (about all I can say under NDA).
-          Before that I shipped distributed systems at <B>Veena Agencies</B> and ran dense,
+          Firmware Intern at <B>Micron</B>, working on simulation and analysis deep in the storage
+          stack. Before that I shipped distributed systems at <B>Veena Agencies</B> and ran dense,
           reproducible genomic machine-learning research at <B>SJSU</B>. These days I&apos;m also
           studying computer science at <B>SCU</B>.
         </p>

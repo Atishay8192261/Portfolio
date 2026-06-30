@@ -14,62 +14,62 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Atishay Jain | Software Engineer & AI Developer | atie.dev",
+  title: {
+    default: "Atishay Jain — Software Engineer | atie.dev",
+    template: "%s | Atishay Jain",
+  },
   description:
-    "Official portfolio of Atishay Jain - Software Engineer specializing in AI, Machine Learning & Full-Stack Development. MS in Computer Science at Santa Clara University (SCU), BS in CS from San Jose State University (SJSU). View projects, experience, and skills.",
+    "Atishay Jain (atie) is a software engineer and SSD Firmware Intern at Micron, working on simulation and analysis in the storage stack. CS grad student at Santa Clara University, BS in CS from San Jose State. Based in the Bay Area.",
   keywords: [
     "Atishay Jain",
-    "Atishay Jain Portfolio",
-    "Atishay Jain Software Engineer",
-    "Atishay Jain SCU",
+    "Atishay Jain portfolio",
+    "Atishay Jain software engineer",
+    "Atishay Jain Micron",
     "Atishay Jain Santa Clara University",
+    "Atishay Jain SCU",
     "Atishay Jain SJSU",
     "Atishay Jain San Jose State",
-    "Atishay Jain Developer",
-    "Atishay Jain AI",
-    "Atishay Jain Machine Learning",
+    "atie",
     "atie.dev",
-    "Software Engineer Bay Area",
-    "AI Developer San Jose",
-    "Full-Stack Developer",
-    "Spring Boot Developer",
-    "React Developer",
-    "Next.js Developer",
-    "Java Developer",
-    "Python Developer",
-    "Machine Learning Engineer",
-    "Computer Science Portfolio",
+    "software engineer Bay Area",
+    "SSD firmware engineer",
   ],
   authors: [{ name: "Atishay Jain", url: "https://www.atie.dev" }],
   creator: "Atishay Jain",
   publisher: "Atishay Jain",
-  robots: "index, follow",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
-    title: "Atishay Jain | Software Engineer & AI Developer",
+    title: "Atishay Jain — Software Engineer",
     description:
-      "Official portfolio of Atishay Jain - Software Engineer with expertise in AI, Machine Learning & Full-Stack Development. Currently pursuing MS in CS at Santa Clara University.",
-    type: "website",
+      "Software engineer and SSD Firmware Intern at Micron. CS grad student at Santa Clara University. Based in the Bay Area.",
+    type: "profile",
     url: "https://www.atie.dev",
-    siteName: "Atishay Jain Portfolio",
+    siteName: "Atishay Jain",
     locale: "en_US",
-    images: [{ 
-      url: "https://www.atie.dev/profile.jpg",
-      width: 1200,
-      height: 630,
-      alt: "Atishay Jain - Software Engineer"
-    }],
+    images: [
+      {
+        url: "https://www.atie.dev/profile.jpg",
+        width: 512,
+        height: 640,
+        alt: "Atishay Jain",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Atishay Jain | Software Engineer & AI Developer",
+    title: "Atishay Jain — Software Engineer",
     description:
-      "Official portfolio of Atishay Jain - Software Engineer specializing in AI, ML & Full-Stack. MS CS @ SCU, BS CS @ SJSU.",
-    images: [{ url: "https://www.atie.dev/profile.jpg" }],
-    creator: "@AtishayJain19",
-    site: "@AtishayJain19",
-  },
-  verification: {
-    google: "your-google-verification-code", // Add your Google Search Console verification
+      "Software engineer and SSD Firmware Intern at Micron. CS grad student at Santa Clara University.",
+    images: ["https://www.atie.dev/profile.jpg"],
   },
   alternates: {
     canonical: "https://www.atie.dev",
@@ -87,17 +87,23 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Atishay Jain",
+    alternateName: "atie",
     url: "https://www.atie.dev",
     image: "https://www.atie.dev/profile.jpg",
     sameAs: [
-      "https://github.com/atishay8192261",
+      "https://github.com/Atishay8192261",
       "https://linkedin.com/in/atishayjain19",
-      "https://twitter.com/AtishayJain19",
+      "https://medium.com/@atishayjain8192261",
     ],
-    jobTitle: "Software Engineer",
+    jobTitle: "SSD Firmware Intern",
     worksFor: {
       "@type": "Organization",
-      name: "Santa Clara University",
+      name: "Micron Technology",
+      sameAs: "https://www.micron.com",
+    },
+    homeLocation: {
+      "@type": "Place",
+      name: "San Francisco Bay Area, California",
     },
     alumniOf: [
       {
@@ -113,15 +119,13 @@ export default function RootLayout({
     ],
     knowsAbout: [
       "Software Engineering",
-      "Artificial Intelligence",
+      "SSD Firmware",
+      "Storage Systems",
+      "Distributed Systems",
       "Machine Learning",
-      "Full-Stack Development",
       "Java",
       "Python",
       "TypeScript",
-      "React",
-      "Next.js",
-      "Spring Boot",
     ],
     email: "mailto:atishayjain@atie.dev",
   };
